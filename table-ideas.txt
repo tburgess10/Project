@@ -1,0 +1,12 @@
+Possible Tables:
+
+Sample Details
+Gradation
+Atterberg Limits (Liquid Limit, Plastic Limit)
+Competition
+California Bearing Ratio
+Unconfined Compressive Strength
+Resistivity
+pH of soil
+Projects
+Plants (Central Mix Aggregate/Quarry Plant Numbers)
