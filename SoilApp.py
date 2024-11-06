@@ -43,7 +43,7 @@ def open_new_window():
     window_height = int(root.winfo_screenheight() / 1.3)
     position_x = int((root.winfo_screenwidth() - window_width) / 2)
     position_y = int((root.winfo_screenheight() - window_height) / 2)
-    new_window.geometry(f"609x553+{position_x}+{position_y}")
+    new_window.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
 
     # Extra padding at the top
     top_space = Label(new_window, text="")
