@@ -186,7 +186,7 @@ def open_new_window():
     classificatioBool = StringVar(value="classOff")
     classificatioC = Checkbutton(
         TestsRequiredFrame,
-        text="CLASSIFICATIO",
+        text="CLASSIFICATION",
         onvalue="classOn",
         offvalue="classOff",
         variable=classificatioBool
