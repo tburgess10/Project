@@ -256,10 +256,14 @@ root.rowconfigure(0, weight = 1)
 
 window_width = int(root.winfo_screenwidth() / 1.5)
 window_height = int(root.winfo_screenheight() / 1.5)
+
+print(window_width)
+print(window_height)
+
 position_x = int((root.winfo_screenwidth() - window_width) / 2)
 position_y = int((root.winfo_screenheight() - window_height) / 2)
 
-root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
+root.geometry(f"853x480+{position_x}+{position_y}")
 
 mainframe = ttk.Frame(root)
 mainframe.grid(column = 0, row = 0, sticky = (N, W))
