@@ -2,73 +2,78 @@ from tkinter import *
 from tkinter import ttk
 
 def open_new_window():
-
+    
     # windows and frames
     new_window = Toplevel(root)
     new_window.title("New Sample")
     new_window.resizable(True, True)
 
-    stationFrame = ttk.Frame(new_window)
+    notebook = ttk.Notebook(new_window)
+    notebook.grid(column=0, row=0, sticky="NSEW")
+    tab1 = ttk.Frame(notebook)
+    notebook.add(tab1, text="Sample Details")
+
+    stationFrame = ttk.Frame(tab1)
     stationFrame.grid(column = 2, row = 10, columnspan = 3, sticky = (N, W), padx = (10, 0))
 
-    startEndFrame = ttk.Frame(new_window)
+    startEndFrame = ttk.Frame(tab1)
     startEndFrame.grid(column = 0, row = 13, columnspan = 5, sticky = (N, W))
-
-    MaterialRadioButtonsFrame = ttk.Frame(new_window)
+    
+    MaterialRadioButtonsFrame = ttk.Frame(tab1)
     MaterialRadioButtonsFrame.grid(column = 1, row = 14, columnspan = 3, sticky = (N, W), padx = (10, 0), pady = (5, 5))
 
     innerMaterialRadioBFrame = ttk.Frame(MaterialRadioButtonsFrame)
     innerMaterialRadioBFrame.grid(column = 0, row = 1, columnspan = 3, sticky = (N, W))
 
-    materialDescFrame = ttk.Frame(new_window)
+    materialDescFrame = ttk.Frame(tab1)
     materialDescFrame.grid(column = 2, row = 15, columnspan = 3, rowspan = 3, sticky = (N, W), padx = (10, 0))
-
-    TimeChargeInfoFrame = ttk.Frame(new_window)
+    
+    TimeChargeInfoFrame = ttk.Frame(tab1)
     TimeChargeInfoFrame.grid(column = 6, row = 2, rowspan = 5, sticky = (N, W), padx = (60, 0))
-
-    TestsRequiredFrame = ttk.Frame(new_window)
+    
+    TestsRequiredFrame = ttk.Frame(tab1)
     TestsRequiredFrame.grid(column = 6, row = 7, rowspan = 6, sticky = (N, W), padx = (60, 0))
 
-    TestTitleFrame = ttk.Frame(new_window)
+    TestTitleFrame = ttk.Frame(tab1)
     TestTitleFrame.grid(column = 6, row = 14, rowspan = 2, sticky = (N, W), padx = (60, 0))
 
-    RemarksFrame = ttk.Frame(new_window)
+    RemarksFrame = ttk.Frame(tab1)
     RemarksFrame.grid(column = 6, row = 15, rowspan = 2, sticky = (N, W), padx = (60, 0), pady = (30, 0))
 
-    BottomButtonsFrame = ttk.Frame(new_window)
+    BottomButtonsFrame = ttk.Frame(tab1)
     BottomButtonsFrame.grid(column = 0, row = 20, columnspan = 7, sticky = (N, S, W, E))
 
     # Geometry
     window_width = int(root.winfo_screenwidth() / 2.1)
-    window_height = int(root.winfo_screenheight() / 1.3)
+    window_height = int(root.winfo_screenheight() / 1.2)
     position_x = int((root.winfo_screenwidth() - window_width) / 2)
     position_y = int((root.winfo_screenheight() - window_height) / 2)
     new_window.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
 
     # Extra padding at the top
-    top_space = Label(new_window, text="")
+    top_space = Label(tab1, text="")
     top_space.grid(row=0, column=0, columnspan=5, pady=(10, 0))
 
     # Label widgets
-    DataRecievedL = ttk.Label(new_window, text="Data Received")
-    DataSampledL = ttk.Label(new_window, text="Data Sampled")
-    DataCompletedL = ttk.Label(new_window, text="Date Completed")
-    ProjectNumL = ttk.Label(new_window, text="Project #")
-    PlantNumL = ttk.Label(new_window, text="Plant #")
-    RouteNumL = ttk.Label(new_window, text="Route #")
-    CityOrCountyL = ttk.Label(new_window, text="City or County")
-    FieldSampleL = ttk.Label(new_window, text="Field Sample #")
-    SubmittedByL = ttk.Label(new_window, text="Submitted By")
-    StationL = ttk.Label(new_window, text="Station")
+    DataRecievedL = ttk.Label(tab1, text="Data Received")
+    DataSampledL = ttk.Label(tab1, text="Data Sampled")
+    DataCompletedL = ttk.Label(tab1, text="Date Completed")
+    ProjectNumL = ttk.Label(tab1, text="Project #")
+    PlantNumL = ttk.Label(tab1, text="Plant #")
+    RouteNumL = ttk.Label(tab1, text="Route #")
+    CityOrCountyL = ttk.Label(tab1, text="City or County")
+    FieldSampleL = ttk.Label(tab1, text="Field Sample #")
+    SubmittedByL = ttk.Label(tab1, text="Submitted By")
+    StationL = ttk.Label(tab1, text="Station")
     StationPlusL = ttk.Label(stationFrame, text="+")
-    SampleLocationL = ttk.Label(new_window, text="Sample Location")
-    StructureBoringL = ttk.Label(new_window, text="Structure/Boring")
+    SampleLocationL = ttk.Label(tab1, text="Sample Location")
+    StructureBoringL = ttk.Label(tab1, text="Structure/Boring")
     StartL = ttk.Label(startEndFrame, text="Start")
     EndL1 = ttk.Label(startEndFrame, text="ft   End")
     EndL2 = ttk.Label(startEndFrame, text="ft")
-    MaterialL = ttk.Label(new_window, text="Material")
-    MaterialDescriptionL = ttk.Label(new_window, text="Material\nDescription")
-    TimeChargeInfoL = ttk.Label(new_window, text = "TIME CHARGE INFORMATION")
+    MaterialL = ttk.Label(tab1, text="Material")
+    MaterialDescriptionL = ttk.Label(tab1, text="Material\nDescription")
+    TimeChargeInfoL = ttk.Label(tab1, text = "TIME CHARGE INFORMATION")
     UPCCodeL = ttk.Label(TimeChargeInfoFrame, text = "UPC Code")
     DepartmentCodeL = ttk.Label(TimeChargeInfoFrame, text = "Department Code")
     TaskCodeL = ttk.Label(TimeChargeInfoFrame, text = "Task Code")
@@ -108,18 +113,18 @@ def open_new_window():
     RemarksL.grid(column = 0, row = 0, sticky = (N, W), pady = (20, 0))
 
     # Entry widgets
-    DataRecievedE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    DataSampledE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    DataCompletedE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    ProjectNumE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    PlantNumE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    RouteNumE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    FieldSampleE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    SubmittedByE = ttk.Entry(new_window, font=("Segoe UI", 8))
+    DataRecievedE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    DataSampledE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    DataCompletedE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    ProjectNumE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    PlantNumE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    RouteNumE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    FieldSampleE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    SubmittedByE = ttk.Entry(tab1, font=("Segoe UI", 8))
     StationE1 = ttk.Entry(stationFrame, font=("Segoe UI", 8), width=8)
     StationE2 = ttk.Entry(stationFrame, font=("Segoe UI", 8), width=8)
-    SampleLocationE = ttk.Entry(new_window, font=("Segoe UI", 8))
-    StructureBoringE = ttk.Entry(new_window, font=("Segoe UI", 8))
+    SampleLocationE = ttk.Entry(tab1, font=("Segoe UI", 8))
+    StructureBoringE = ttk.Entry(tab1, font=("Segoe UI", 8))
     StartE = ttk.Entry(startEndFrame, font=("Segoe UI", 8), width=7)
     EndE = ttk.Entry(startEndFrame, font=("Segoe UI", 8), width=7)
     UPCCodeE = ttk.Entry(TimeChargeInfoFrame, font=("Segoe UI", 8))
@@ -128,6 +133,7 @@ def open_new_window():
     ActivityCodeE = ttk.Entry(TimeChargeInfoFrame, font=("Segoe UI", 8))
 
     # Entry widget grid layouts
+    
     DataRecievedE.grid(column=2, row=1, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (10, 0))
     DataSampledE.grid(column=2, row=2, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (10, 0))
     DataCompletedE.grid(column=2, row=3, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (10, 0))
@@ -149,7 +155,7 @@ def open_new_window():
     ActivityCodeE.grid(column = 1, row = 4, sticky=(N, W), pady = (3, 3), padx = (5, 0))
 
     # Combobox widgets
-    CityOrCountyCB = ttk.Combobox(new_window, width = 17)
+    CityOrCountyCB = ttk.Combobox(tab1, width = 17)
     TestedByCB = ttk.Combobox(TestTitleFrame, width = 17)
     TitleCB = ttk.Combobox(TestTitleFrame, width = 17)
 
@@ -177,11 +183,11 @@ def open_new_window():
     # text widgets
     materialDescT = Text(materialDescFrame, height = 5, width = 20, font = ("Segoe UI", 8))
     RemarksT = Text(RemarksFrame, height = 5, width = 20, font = ("Segoe UI", 8))
-
+    
     # text widget grid layouts
     materialDescT.grid(column = 0, row = 0, sticky = (N, W))
     RemarksT.grid(column = 1, row = 0, sticky = (N, W), padx = (57, 0), pady = (0, 20))
-
+    
     # checkbox widgets
     classificatioBool = StringVar(value="classOff")
     classificatioC = Checkbutton(
