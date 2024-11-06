@@ -163,9 +163,9 @@ def open_new_window():
     style.configure("Custom.TRadiobutton", font=("Segoe UI", 8), padding=(0,0))
     SoilRB = ttk.Radiobutton(MaterialRadioButtonsFrame, value=0,text = "SOIL", style="Custom.TRadiobutton")
     CMARB = ttk.Radiobutton(MaterialRadioButtonsFrame, value=1, text = "CMA", style="Custom.TRadiobutton")
-    OtheRB = ttk.Radiobutton(MaterialRadioButtonsFrame, value=2,text = "OTHE", style="Custom.TRadiobutton")
-    AggregatRB = ttk.Radiobutton(innerMaterialRadioBFrame, value=3,text = "AGGREGAT", style="Custom.TRadiobutton")
-    ProficienRB = ttk.Radiobutton(innerMaterialRadioBFrame, value=4,text = "PROFICIEN", style="Custom.TRadiobutton")
+    OtheRB = ttk.Radiobutton(MaterialRadioButtonsFrame, value=2,text = "OTHER", style="Custom.TRadiobutton")
+    AggregatRB = ttk.Radiobutton(innerMaterialRadioBFrame, value=3,text = "AGGREGATE", style="Custom.TRadiobutton")
+    ProficienRB = ttk.Radiobutton(innerMaterialRadioBFrame, value=4,text = "PROFICIENCY", style="Custom.TRadiobutton")
 
     # RadioButton widget grid layouts
     SoilRB.grid(column = 0, row = 0, sticky = (N, W), padx = (10, 0))
