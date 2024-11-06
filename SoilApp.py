@@ -6,7 +6,7 @@ def open_new_window():
     # windows and frames
     new_window = Toplevel(root)
     new_window.title("New Sample")
-    new_window.resizable(False, False)
+    new_window.resizable(True, True)
 
     stationFrame = ttk.Frame(new_window)
     stationFrame.grid(column = 2, row = 10, columnspan = 3, sticky = (N, W), padx = (10, 0))
