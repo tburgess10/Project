@@ -7,9 +7,11 @@ def open_new_window():
     new_window.title("New Sample")
     new_window.resizable(True, True)
 
+    # Notebook tabs
     notebook = ttk.Notebook(new_window)
     notebook.grid(column=0, row=0, sticky="NSEW")
     tab1 = NewWindowComponents.create_tab1(notebook)
+    tab2 = NewWindowComponents.create_tab2(notebook)
 
     # submit and cancel button frame
     BottomButtonsFrame = ttk.Frame(new_window)
