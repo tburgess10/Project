@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 
+# Tab 1 functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def setup_station_frame(tab):
     stationFrame = ttk.Frame(tab)
     stationFrame.grid(column=2, row=10, columnspan=3, sticky=(N, W), padx=(10, 0))
@@ -234,7 +235,7 @@ def setup_remarks_frame(tab):
 
 def create_tab1(notebook):
     tab1 = ttk.Frame(notebook)
-    notebook.add(tab1, text="Sample Details")
+    notebook.add(tab1, text="Details")
 
     stationFrame = setup_station_frame(tab1)
     startEndFrame = setup_start_end_frame(tab1)
@@ -250,3 +251,75 @@ def create_tab1(notebook):
     RemarksFrame = setup_remarks_frame(tab1)
 
     return tab1
+
+# Tab 2 functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+def setup_atterberg_Frame(tab):
+    atterbergFrame = ttk.Labelframe(tab, text='Atterberg', padding=(20, 20, 20, 20))
+    atterbergFrame.grid(column=1, row=1, sticky=(N,W))
+    LiquedLimL = ttk.Label(atterbergFrame, text="Liquid Limit")
+    PlasticLimL = ttk.Label(atterbergFrame, text="Plastic Limit")
+    CupNumL = ttk.Label(atterbergFrame, text="Cup #")
+    CupWeightL = ttk.Label(atterbergFrame, text="Cup Weight")
+    WetWeightL = ttk.Label(atterbergFrame, text="Wet Weight")
+    DryWeightL = ttk.Label(atterbergFrame, text="Dry Weight")
+    NumBlowsL = ttk.Label(atterbergFrame, text="# Blows")
+    CannotBeL = ttk.Label(atterbergFrame, text="Cannot Be Determined")
+    LiquedLimL.grid(column=1, row=0, sticky=(N,W), padx=(10, 10))
+    PlasticLimL.grid(column=2, row=0, sticky=(N,W))
+    CupNumL.grid(column=0, row=1, sticky=(N,W), padx=(50, 0), pady=(5, 5))
+    CupWeightL.grid(column=0, row=2, sticky=(N,W), padx=(50, 0), pady=(5, 5))
+    WetWeightL.grid(column=0, row=3, sticky=(N,W), padx=(50, 0), pady=(5, 5))
+    DryWeightL.grid(column=0, row=4, sticky=(N,W), padx=(50, 0), pady=(5, 5))
+    NumBlowsL.grid(column=0, row=5, sticky=(N,W), padx=(50, 0), pady=(5, 5))
+    CannotBeL.grid(column=0, row=6, sticky=(N,W))
+    CupLiqE = ttk.Entry(atterbergFrame, width=10)
+    CupPlasE = ttk.Entry(atterbergFrame, width=10)
+    CupWLiqE = ttk.Entry(atterbergFrame, width=10)
+    CupWPlasE = ttk.Entry(atterbergFrame, width=10)
+    WetLiqE = ttk.Entry(atterbergFrame, width=10)
+    WetPlasE = ttk.Entry(atterbergFrame, width=10)
+    DryLiq = ttk.Entry(atterbergFrame, width=10)
+    DryPlas = ttk.Entry(atterbergFrame, width=10)
+    BlowsE = ttk.Entry(atterbergFrame, width=10)
+    CupLiqE.grid(column=1, row=1)
+    CupPlasE.grid(column=2, row=1)
+    CupWLiqE.grid(column=1, row=2)
+    CupWPlasE.grid(column=2, row=2)
+    WetLiqE.grid(column=1, row=3)
+    WetPlasE.grid(column=2, row=3)
+    DryLiq.grid(column=1, row=4)
+    DryPlas.grid(column=2, row=4)
+    BlowsE.grid(column=1, row=5)
+    firstBool = StringVar(value="firstOff")
+    firstC = Checkbutton(
+        atterbergFrame,
+        onvalue="firstOn",
+        offvalue="firstOff",
+        variable=firstBool
+    )
+    secondBool = StringVar(value="secondOff")
+    secondC = Checkbutton(
+        atterbergFrame,
+        onvalue="secondOn",
+        offvalue="secondOff",
+        variable=secondBool
+    )
+    firstC.grid(column=1, row=6)
+    secondC.grid(column=2, row=6)
+    return atterbergFrame
+
+def create_tab2(notebook):
+    tab2 = ttk.Frame(notebook)
+    notebook.add(tab2, text="Atterberg")
+    tab2.grid_rowconfigure(0, weight=1)
+    tab2.grid_rowconfigure(1, weight=0)
+    tab2.grid_rowconfigure(2, weight=1)
+
+    tab2.grid_columnconfigure(0, weight=1)
+    tab2.grid_columnconfigure(1, weight=0)
+    tab2.grid_columnconfigure(2, weight=1)
+
+    atterbergFrame = setup_atterberg_Frame(tab2)
+
+    return tab2
