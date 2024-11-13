@@ -309,6 +309,31 @@ def setup_atterberg_Frame(tab):
     secondC.grid(column=2, row=6)
     return atterbergFrame
 
+def setup_field_moisture_frame(tab):
+    fieldMoistureFrame = ttk.Labelframe(tab, text='Field Moisture', padding=(20, 20, 20, 20))
+    fieldMoistureFrame.grid(column=2, row=1)
+    cupNumL = ttk.Label(fieldMoistureFrame, text="Cup #")
+    cupWeightL = ttk.Label(fieldMoistureFrame, text="Cup Weight")
+    wetWeightL = ttk.Label(fieldMoistureFrame, text="Wet Weight")
+    dryWeightL = ttk.Label(fieldMoistureFrame, text="Dry Weight")
+    fieldMoistL = ttk.Label(fieldMoistureFrame, text="Field Moisture if\n      provided")
+    cupNumL.grid(column=0, row=0, sticky=(N,W))
+    cupWeightL.grid(column=0, row=1, sticky=(N,W))
+    wetWeightL.grid(column=0, row=2, sticky=(N,W))
+    dryWeightL.grid(column=0, row=3, sticky=(N,W))
+    fieldMoistL.grid(column=0, row=4, sticky=(N,W))
+    cupNumE = ttk.Entry(fieldMoistureFrame, width=10)
+    cupWeightE = ttk.Entry(fieldMoistureFrame, width=10)
+    wetWeightE = ttk.Entry(fieldMoistureFrame, width=10)
+    dryWeightE = ttk.Entry(fieldMoistureFrame, width=10)
+    fieldMoistE = ttk.Entry(fieldMoistureFrame, width=10)
+    cupNumE.grid(column=1, row=0, sticky=(N,W), pady=(0,3), padx=(7, 0))
+    cupWeightE.grid(column=1, row=1, sticky=(N,W), pady=(3,3), padx=(7, 0))
+    wetWeightE.grid(column=1, row=2, sticky=(N,W), pady=(3,3), padx=(7, 0))
+    dryWeightE.grid(column=1, row=3, sticky=(N,W), pady=(3,3), padx=(7, 0))
+    fieldMoistE.grid(column=1, row=4, sticky=(N,W), pady=(9,0), padx=(7, 0))
+    return fieldMoistureFrame
+
 def create_tab2(notebook):
     tab2 = ttk.Frame(notebook)
     notebook.add(tab2, text="Atterberg")
@@ -321,5 +346,6 @@ def create_tab2(notebook):
     tab2.grid_columnconfigure(2, weight=1)
 
     atterbergFrame = setup_atterberg_Frame(tab2)
+    fieldMoistureFrame = setup_field_moisture_frame(tab2)
 
     return tab2
