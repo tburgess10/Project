@@ -44,17 +44,18 @@ root.option_add('*tearOff', FALSE)
 root.columnconfigure(0, weight = 1)
 root.rowconfigure(0, weight = 1)
 
+
 window_width = int(root.winfo_screenwidth() / 1.5)
 window_height = int(root.winfo_screenheight() / 1.5)
 position_x = int((root.winfo_screenwidth() - window_width) / 2)
 position_y = int((root.winfo_screenheight() - window_height) / 2)
 
-root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
+window_res = "380x300"
+
+root.geometry(f"{window_res}+{position_x}+{position_y}")
 
 mainframe = ttk.Frame(root)
 mainframe.grid(column = 0, row = 0, sticky = (N, W))
-mainframe.columnconfigure(0, weight = 1)
-mainframe.rowconfigure(0, weight = 1)
 
 # Top buttons
 New = ttk.Button(mainframe, text = "New", style="Custom.TButton", command = open_new_window)
