@@ -20,12 +20,13 @@ def open_new_window():
     BottomButtonsFrame.grid(column = 0, row = 20, columnspan = 7, sticky = (N, S, W, E))
 
     # Geometry
+    new_window_resolution = "600x600"
     window_width = int(root.winfo_screenwidth() / 2.1)
     window_height = int(root.winfo_screenheight() / 1.2)
     position_x = int((root.winfo_screenwidth() - window_width) / 2)
     position_y = int((root.winfo_screenheight() - window_height) / 2.4)
-    new_window.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
-
+    #new_window.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
+    new_window.geometry(f"{new_window_resolution}+{position_x}+{position_y}")
     # Extra padding at the top
     top_space = Label(tab1, text="")
     top_space.grid(row=0, column=0, columnspan=5, pady=(10, 0))
