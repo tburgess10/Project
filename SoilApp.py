@@ -13,6 +13,7 @@ def open_new_window():
     tab1 = NewWindowComponents.create_tab1(notebook)
     tab2 = NewWindowComponents.create_tab2(notebook)
     tab3 = NewWindowComponents.create_tab3(notebook)
+    tab4 = NewWindowComponents.create_tab4(notebook)
 
     # submit and cancel button frame
     BottomButtonsFrame = ttk.Frame(new_window)
