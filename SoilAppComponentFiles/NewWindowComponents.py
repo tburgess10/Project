@@ -507,7 +507,95 @@ def create_tab3(notebook):
 
     moldFrame = setup_mold_frame(centerFrame)
     pointFrame = setup_point_frame(centerFrame)
-    moldFrame.grid(column=0, row=0, pady=(10, 0), sticky=(E, W))
-    pointFrame.grid(column=0, row=1, pady=(10, 0), sticky=(E, W))
+    moldFrame.grid(column=0, row=0, pady=(10, 0), columnspan=5, sticky="")
+    pointFrame.grid(column=0, row=1, pady=(10, 0), sticky=(N, S))
 
     return tab3
+
+# Tab 4 functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+def setup_main_frame(tab):
+    mainFrame = ttk.Frame(tab)
+    mainFrame.grid(column=1, row=1)
+    TotalWeightL = ttk.Label(mainFrame, text="Total Weight")
+    TotalWeightL.grid(column=0, row=1, sticky=(N,E), padx=(0, 10), pady=(3, 0))
+    OneHalfL = ttk.Label(mainFrame, text="1 1/2\"")
+    OneHalfL.grid(column=0, row=2, sticky=(N,E), padx=(0, 10), pady=(3, 0))
+    OneL = ttk.Label(mainFrame, text="1\"")
+    OneL.grid(column=0, row=3, sticky=(N,E), padx=(0, 10), pady=(3, 0))
+    ThreeFourthsL = ttk.Label(mainFrame, text="3/4\"")
+    ThreeFourthsL.grid(column=0, row=4, sticky=(N,E), padx=(0, 10), pady=(3, 0))
+    ThreeEigthsL = ttk.Label(mainFrame, text="3/8\"")
+    ThreeEigthsL.grid(column=0, row=5, sticky=(N,E), padx=(0, 10), pady=(3, 0))
+    NumFourL = ttk.Label(mainFrame, text="#4")
+    NumFourL.grid(column=0, row=6, sticky=(N,E), padx=(0, 10), pady=(3, 0))
+    NumTenL = ttk.Label(mainFrame, text="#10")
+    NumTenL.grid(column=0, row=7, sticky=(N,E), padx=(0, 10), pady=(3, 0))
+    gramsL = ttk.Label(mainFrame, text="(grams)")
+    gramsL.grid(column=1, row=0, pady=(0, 10), sticky="")
+
+    TotalWeightE = ttk.Entry(mainFrame, width=10)
+    TotalWeightE.grid(column=1, row=1, sticky=(N,W), pady=(3, 3))
+    OneHalfE = ttk.Entry(mainFrame, width=10)
+    OneHalfE.grid(column=1, row=2, sticky=(N,W), pady=(3, 3))
+    OneE = ttk.Entry(mainFrame, width=10)
+    OneE.grid(column=1, row=3, sticky=(N,W), pady=(3, 3))
+    ThreeFourthsE = ttk.Entry(mainFrame, width=10)
+    ThreeFourthsE.grid(column=1, row=4, sticky=(N,W), pady=(3, 3))
+    ThreeEigthsE = ttk.Entry(mainFrame, width=10)
+    ThreeEigthsE.grid(column=1, row=5, sticky=(N,W), pady=(3, 3))
+    NumFourE = ttk.Entry(mainFrame, width=10)
+    NumFourE.grid(column=1, row=6, sticky=(N,W), pady=(3, 3))
+    NumTenE = ttk.Entry(mainFrame, width=10)
+    NumTenE.grid(column=1, row=7, sticky=(N,W), pady=(3, 3))
+
+    FinesWeightL = ttk.Label(mainFrame, text="Fines Weight")
+    FinesWeightL.grid(column=2, row=1, sticky=(N,E), padx=(20, 10))
+    NumTwentyL = ttk.Label(mainFrame, text="#20")
+    NumTwentyL.grid(column=2, row=2, sticky=(N,E), padx=(0, 10))
+    NumFortyL = ttk.Label(mainFrame, text="#40")
+    NumFortyL.grid(column=2, row=3, sticky=(N,E), padx=(0, 10))
+    NumSixtyL = ttk.Label(mainFrame, text="#60")
+    NumSixtyL.grid(column=2, row=4, sticky=(N,E), padx=(0, 10))
+    NumEightyL = ttk.Label(mainFrame, text="#80")
+    NumEightyL.grid(column=2, row=5, sticky=(N,E), padx=(0, 10))
+    NumHundredL = ttk.Label(mainFrame, text="#100")
+    NumHundredL.grid(column=2, row=6, sticky=(N,E), padx=(0, 10))
+    NumTwoHundredL = ttk.Label(mainFrame, text="#200")
+    NumTwoHundredL.grid(column=2, row=7, sticky=(N,E), padx=(0, 10))
+
+    gramsL2 = ttk.Label(mainFrame, text="(grams)")
+    gramsL2.grid(column=3, row=0, pady=(0, 10), sticky="")
+
+    FinesWeightE = ttk.Entry(mainFrame, width=10)
+    FinesWeightE.grid(column=3, row=1, sticky=(N,W))
+    NumTwentyE = ttk.Entry(mainFrame, width=10)
+    NumTwentyE.grid(column=3, row=2, sticky=(N,W))
+    NumFortyE = ttk.Entry(mainFrame, width=10)
+    NumFortyE.grid(column=3, row=3, sticky=(N,W))
+    NumSixtyE = ttk.Entry(mainFrame, width=10)
+    NumSixtyE.grid(column=3, row=4, sticky=(N,W))
+    NumEightyE = ttk.Entry(mainFrame, width=10)
+    NumEightyE.grid(column=3, row=5, sticky=(N,W))
+    NumHundredE = ttk.Entry(mainFrame, width=10)
+    NumHundredE.grid(column=3, row=6, sticky=(N,W))
+    NumTwoHundredE = ttk.Entry(mainFrame, width=10)
+    NumTwoHundredE.grid(column=3, row=7, sticky=(N,W))
+    return mainFrame
+
+def create_tab4(notebook):
+    tab4 = ttk.Frame(notebook)
+    notebook.add(tab4, text="Gradation")
+    
+    tab4.columnconfigure(0, weight=1)
+    tab4.columnconfigure(1, weight=0)
+    tab4.columnconfigure(2, weight=1)
+
+    tab4.rowconfigure(0, weight=1)
+    tab4.rowconfigure(1, weight=0)
+    tab4.rowconfigure(2, weight=1)
+
+    mainFrame = setup_main_frame(tab4)
+    mainFrame.grid(column=1, row=1, sticky="nsew")
+
+    return tab4
