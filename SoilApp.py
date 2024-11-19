@@ -14,10 +14,11 @@ def open_new_window():
     tab2 = NewWindowComponents.create_tab2(notebook)
     tab3 = NewWindowComponents.create_tab3(notebook)
     tab4 = NewWindowComponents.create_tab4(notebook)
+    tab5 = NewWindowComponents.create_tab5(notebook)
 
     # submit and cancel button frame
     BottomButtonsFrame = ttk.Frame(new_window)
-    BottomButtonsFrame.grid(column = 0, row = 20, columnspan = 7, sticky = (N, S, W, E))
+    BottomButtonsFrame.grid(column = 0, row = 20, columnspan = 7, sticky = "")
 
     # Geometry
     new_window_resolution = "600x600"
@@ -36,8 +37,8 @@ def open_new_window():
     CancelB = ttk.Button(BottomButtonsFrame, text = "Cancel", command=new_window.destroy)
 
     # submit and cancel button layout
-    SubmitB.grid(column = 0, row = 0, sticky = (N, W), padx = (215, 20), pady = (15, 0))
-    CancelB.grid(column = 7, row = 0, sticky = (N, E), pady = (15, 0))
+    SubmitB.grid(column = 0, row = 0, sticky = (N, W), pady = (15, 0), padx=(0, 5))
+    CancelB.grid(column = 7, row = 0, sticky = (N, E), pady = (15, 0), padx=(5, 0))
 
 root = Tk()
 root.title("Soil App")
