@@ -1,6 +1,52 @@
+import sqlite3
 from tkinter import *
 from tkinter import ttk
 from SoilAppComponentFiles import NewWindowComponents
+
+def insert_data(tab2_widgets):
+    
+    # replace the line below with the path to your soil databse, 
+    # still trying to figure out a way to make it easily 
+    # accessable to everyone regardless of path if possible.
+    db_path = r"C:\Users\granb\Downloads\Soil_framework.sqlite" 
+
+    
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    # get atterberg widget entries
+    LiquidLimitTareNumber = tab2_widgets["atterberg"]["CupLiqE"].get()
+    LiquidLimitTareWeight = tab2_widgets["atterberg"]["CupWLiqE"].get()
+    LiquidLimitWeight = tab2_widgets["atterberg"]["WetLiqE"].get()
+    LiquidLimitDryWeight = tab2_widgets["atterberg"]["DryLiq"].get()
+    LiquidLimitNumberOfBlows = tab2_widgets["atterberg"]["BlowsE"].get()
+    LiquidLimitNotObtained = tab2_widgets["atterberg"]["firstBool"]()
+    PlasticLimitTareNumber = tab2_widgets["atterberg"]["CupPlasE"].get()
+    PlasticLimitTareWeight = tab2_widgets["atterberg"]["CupWPlasE"].get()
+    PlasticLimitWetWeight = tab2_widgets["atterberg"]["WetPlasE"].get()
+    PlasticLimitDryWeight = tab2_widgets["atterberg"]["DryPlas"].get()
+    PlasticLimitNotObtained = tab2_widgets["atterberg"]["secondBool"]()
+
+    # Insert the data into the database
+    try:
+        cursor.execute("""
+            INSERT INTO AtterbergLimitResults (LiquidLimitTareNumber, LiquidLimitTareWeight, LiquidLimitWeight, 
+            LiquidLimitDryWeight, LiquidLimitNumberOfBlows, LiquidLimitNotObtained, 
+            PlasticLimitTareNumber, PlasticLimitTareWeight, PlasticLimitWetWeight, 
+            PlasticLimitDryWeight, PlasticLimitNotObtained)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (LiquidLimitTareNumber, LiquidLimitTareWeight, LiquidLimitWeight, 
+            LiquidLimitDryWeight, LiquidLimitNumberOfBlows, LiquidLimitNotObtained, 
+            PlasticLimitTareNumber, PlasticLimitTareWeight, PlasticLimitWetWeight, 
+            PlasticLimitDryWeight, PlasticLimitNotObtained))
+
+        conn.commit()
+        print("Data inserted successfully!")
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
+    finally:
+        conn.close()
+
 
 def open_new_window():
     new_window = Toplevel(root)
@@ -15,6 +61,8 @@ def open_new_window():
     tab3 = NewWindowComponents.create_tab3(notebook)
     tab4 = NewWindowComponents.create_tab4(notebook)
     tab5 = NewWindowComponents.create_tab5(notebook)
+
+    tab2_widgets = tab2.widgets
 
     # submit and cancel button frame
     BottomButtonsFrame = ttk.Frame(new_window)
@@ -33,7 +81,7 @@ def open_new_window():
     top_space.grid(row=0, column=0, columnspan=5, pady=(10, 0))
 
     # submit and cancel button
-    SubmitB = ttk.Button(BottomButtonsFrame, text = "Submit")
+    SubmitB = ttk.Button(BottomButtonsFrame, text = "Submit", command=lambda: insert_data(tab2_widgets))
     CancelB = ttk.Button(BottomButtonsFrame, text = "Cancel", command=new_window.destroy)
 
     # submit and cancel button layout
@@ -45,7 +93,6 @@ root.title("Soil App")
 root.option_add('*tearOff', FALSE)
 root.columnconfigure(0, weight = 1)
 root.rowconfigure(0, weight = 1)
-
 
 window_width = int(root.winfo_screenwidth() / 1.5)
 window_height = int(root.winfo_screenheight() / 1.5)

@@ -257,6 +257,7 @@ def create_tab1(notebook):
 def setup_atterberg_Frame(tab):
     atterbergFrame = ttk.Labelframe(tab, text='Atterberg', padding=(20, 20, 20, 20))
     atterbergFrame.grid(column=1, row=1, sticky=(N,W))
+
     LiquedLimL = ttk.Label(atterbergFrame, text="Liquid Limit")
     PlasticLimL = ttk.Label(atterbergFrame, text="Plastic Limit")
     CupNumL = ttk.Label(atterbergFrame, text="Cup #")
@@ -273,15 +274,26 @@ def setup_atterberg_Frame(tab):
     DryWeightL.grid(column=0, row=4, sticky=(N,W), padx=(50, 0), pady=(5, 5))
     NumBlowsL.grid(column=0, row=5, sticky=(N,W), padx=(50, 0), pady=(5, 5))
     CannotBeL.grid(column=0, row=6, sticky=(N,W))
-    CupLiqE = ttk.Entry(atterbergFrame, width=10)
-    CupPlasE = ttk.Entry(atterbergFrame, width=10)
-    CupWLiqE = ttk.Entry(atterbergFrame, width=10)
-    CupWPlasE = ttk.Entry(atterbergFrame, width=10)
-    WetLiqE = ttk.Entry(atterbergFrame, width=10)
-    WetPlasE = ttk.Entry(atterbergFrame, width=10)
-    DryLiq = ttk.Entry(atterbergFrame, width=10)
-    DryPlas = ttk.Entry(atterbergFrame, width=10)
-    BlowsE = ttk.Entry(atterbergFrame, width=10)
+
+    CupLiqTV = StringVar()
+    CupPlasTV = StringVar()
+    CupWLiqTV = StringVar()
+    CupWPlasTV = StringVar()
+    WetLiqTV = StringVar()
+    WetPlasTV = StringVar()
+    DryLiqTV = StringVar()
+    DryPlasTV = StringVar()
+    BlowsETV = StringVar()
+
+    CupLiqE = ttk.Entry(atterbergFrame, textvariable= CupLiqTV,  width=10)
+    CupPlasE = ttk.Entry(atterbergFrame, textvariable= CupPlasTV, width=10)
+    CupWLiqE = ttk.Entry(atterbergFrame, textvariable= CupWLiqTV, width=10)
+    CupWPlasE = ttk.Entry(atterbergFrame, textvariable= CupWPlasTV, width=10)
+    WetLiqE = ttk.Entry(atterbergFrame, textvariable= WetLiqTV, width=10)
+    WetPlasE = ttk.Entry(atterbergFrame, textvariable= WetPlasTV, width=10)
+    DryLiq = ttk.Entry(atterbergFrame, textvariable= DryLiqTV, width=10)
+    DryPlas = ttk.Entry(atterbergFrame, textvariable= DryPlasTV, width=10)
+    BlowsE = ttk.Entry(atterbergFrame, textvariable= BlowsETV, width=10)
     CupLiqE.grid(column=1, row=1)
     CupPlasE.grid(column=2, row=1)
     CupWLiqE.grid(column=1, row=2)
@@ -291,23 +303,32 @@ def setup_atterberg_Frame(tab):
     DryLiq.grid(column=1, row=4)
     DryPlas.grid(column=2, row=4)
     BlowsE.grid(column=1, row=5)
-    firstBool = StringVar(value="firstOff")
+    
+    firstBool = StringVar(value="FALSE")
     firstC = Checkbutton(
         atterbergFrame,
-        onvalue="firstOn",
-        offvalue="firstOff",
+        onvalue="TRUE",
+        offvalue="FALSE",
         variable=firstBool
     )
-    secondBool = StringVar(value="secondOff")
+    secondBool = StringVar(value="FALSE")
     secondC = Checkbutton(
         atterbergFrame,
-        onvalue="secondOn",
-        offvalue="secondOff",
+        onvalue="TRUE",
+        offvalue="FALSE",
         variable=secondBool
     )
     firstC.grid(column=1, row=6)
     secondC.grid(column=2, row=6)
-    return atterbergFrame
+    return atterbergFrame, {"CupLiqE": CupLiqE, 
+        "CupPlasE": CupPlasE, "CupWLiqE": CupWLiqE,
+        "CupWPlasE": CupWPlasE, "WetLiqE": WetLiqE,
+        "WetPlasE": WetPlasE, "DryLiq": DryLiq,
+        "DryPlas": DryPlas, "BlowsE": BlowsE, 
+        "firstBool": lambda: firstBool.get(),
+        "secondBool": lambda: secondBool.get(),
+        "firstCheckbutton": firstC,
+        "secondCheckbutton": secondC}
 
 def setup_field_moisture_frame(tab):
     fieldMoistureFrame = ttk.Labelframe(tab, text='Field Moisture', padding=(20, 20, 20, 20))
@@ -345,8 +366,12 @@ def create_tab2(notebook):
     tab2.grid_columnconfigure(1, weight=0)
     tab2.grid_columnconfigure(2, weight=1)
 
-    atterbergFrame = setup_atterberg_Frame(tab2)
+    atterbergFrame, atterberg_widgets = setup_atterberg_Frame(tab2)
     fieldMoistureFrame = setup_field_moisture_frame(tab2)
+
+    tab2.widgets = {
+        "atterberg": atterberg_widgets
+    }
 
     return tab2
 
