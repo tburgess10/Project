@@ -8,13 +8,12 @@ def insert_data(tab2_widgets):
     # replace the line below with the path to your soil databse, 
     # still trying to figure out a way to make it easily 
     # accessable to everyone regardless of path if possible.
-    db_path = r"C:\Users\granb\Downloads\Soil_framework.sqlite" 
+    db_path = r"C:\Users\granb\Downloads\Soil_framework.sqlite"
 
-    
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # get atterberg widget entries
+    # get atterberg tab entries
     LiquidLimitTareNumber = tab2_widgets["atterberg"]["CupLiqE"].get()
     LiquidLimitTareWeight = tab2_widgets["atterberg"]["CupWLiqE"].get()
     LiquidLimitWeight = tab2_widgets["atterberg"]["WetLiqE"].get()
