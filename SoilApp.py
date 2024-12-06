@@ -25,8 +25,8 @@ def open_new_window():
     window_height = int(root.winfo_screenheight() / 1.2)
     position_x = int((root.winfo_screenwidth() - window_width) / 2)
     position_y = int((root.winfo_screenheight() - window_height) / 2.4)
-    #new_window.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
     new_window.geometry(f"{new_window_resolution}+{position_x}+{position_y}")
+
     # Extra padding at the top
     top_space = Label(tab1, text="")
     top_space.grid(row=0, column=0, columnspan=5, pady=(10, 0))
@@ -69,5 +69,6 @@ Info = ttk.Button(mainframe, text = "Info")
 Info.grid(column = 3, row = 0, sticky = (N, W))
 Help = ttk.Button(mainframe, text = "Help")
 Help.grid(column = 4, row = 0, sticky = (N, W))
+
 
 root.mainloop()
