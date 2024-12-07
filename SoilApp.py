@@ -1,9 +1,10 @@
 import sqlite3
+import os
 from tkinter import *
 from tkinter import ttk
 from SoilAppComponentFiles import NewWindowComponents
 
-def insert_data(tab2_widgets):
+def insert_data(tab1_widgets, tab2_widgets):
     
     # replace the line below with the path to your soil databse, 
     # still trying to figure out a way to make it easily 
@@ -12,6 +13,57 @@ def insert_data(tab2_widgets):
 
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
+
+    # get sample details entries
+    DataRecieved = tab1_widgets["dataRecieved"]["DataRecievedE"].get()
+    DataSampled = tab1_widgets["dataRecieved"]["DataSampledE"].get()
+    DateCompleted = tab1_widgets["dataRecieved"]["DataCompletedE"].get()
+    ProjectNum = tab1_widgets["dataRecieved"]["ProjectNumE"].get()
+    PlantNum = tab1_widgets["dataRecieved"]["PlantNumE"].get()
+    RouteNum = tab1_widgets["dataRecieved"]["RouteNumE"].get()
+    CityOrCounty = tab1_widgets["cityCounty"]["CityOrCountyCB"].get()
+    FieldSampleNum = tab1_widgets["fieldSample"]["FieldSampleE"].get()
+    SubmittedBy = tab1_widgets["fieldSample"]["SubmittedByE"].get()
+    Station = tab1_widgets["station"]["StationE1"].get()+"+"+tab1_widgets["station"]["StationE2"].get()
+    SampleLocation = tab1_widgets["sampleLocStructure"]["SampleLocationE"].get()
+    StructureBoring = tab1_widgets["sampleLocStructure"]["StructureBoringE"].get()
+    Start = tab1_widgets["startEnd"]["StartE"].get()
+    End = tab1_widgets["startEnd"]["EndE"].get()
+    material_value = tab1_widgets["materialRadioButton"]["materialVar"].get()
+    material_mapping = {
+        0: "SOIL",
+        1: "CMA",
+        2: "OTHER",
+        3: "AGGREGATE",
+        4: "PROFICIENCY",
+    }
+    material_name = material_mapping.get(material_value, "Unknown")
+    materialDesc = tab1_widgets["materialDesc"]["get_material_description"]()
+    UPCCode = tab1_widgets["timeCharge"]["UPCCodeE"].get()
+    DepartmentCode = tab1_widgets["timeCharge"]["DepartmentCodeE"].get()
+    TaskCode = tab1_widgets["timeCharge"]["TaskCodeE"].get()
+    ActivityCode = tab1_widgets["timeCharge"]["ActivityCodeE"].get()
+    selected_tests = tab1_widgets["testsRequired"]["get_selected_tests"]()
+    TestedBy = tab1_widgets["testTitle"]["TestedByCB"].get()
+    Title = tab1_widgets["testTitle"]["TitleCB"].get()
+    Remarks = tab1_widgets["remarks"]["get_remarks_description"]()
+    
+    try:
+        cursor.execute("""
+            INSERT INTO SampleDetails (DateReceived, DateSampled, DateCompleted, ProjectNumber,
+            PlantNumber, RouteNumber, CityCounty, FieldNumber, SubmittedBy, Station, SampleLocation, 
+            Structure, StartDepth, EndDepth, Material, Description, UPCcode, DepartmentCode, TaskCode, 
+            Activitycode, TestsRequired, TestedBy, Title, Remarks)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (DataRecieved, DataSampled, DateCompleted, ProjectNum, PlantNum, RouteNum, 
+            CityOrCounty, FieldSampleNum, SubmittedBy, Station, SampleLocation, StructureBoring, 
+            Start, End, material_name, materialDesc, UPCCode, DepartmentCode, TaskCode, ActivityCode, 
+            selected_tests, TestedBy, Title, Remarks))
+    
+        conn.commit()
+        print("Data inserted into Sample Details successfully!")
+    except sqlite3.Error as e:
+        print("An error occurred:", e)
 
     # get atterberg tab entries
     LiquidLimitTareNumber = tab2_widgets["atterberg"]["CupLiqE"].get()
@@ -29,22 +81,21 @@ def insert_data(tab2_widgets):
     # Insert the data into the database
     try:
         cursor.execute("""
-            INSERT INTO AtterbergLimitResults (LiquidLimitTareNumber, LiquidLimitTareWeight, LiquidLimitWeight, 
+            INSERT INTO Atterberg (LiquidLimitTareNumber, LiquidLimitTareWeight, LiquidLimitWeight, 
             LiquidLimitDryWeight, LiquidLimitNumberOfBlows, LiquidLimitNotObtained, 
             PlasticLimitTareNumber, PlasticLimitTareWeight, PlasticLimitWetWeight, 
             PlasticLimitDryWeight, PlasticLimitNotObtained)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (LiquidLimitTareNumber, LiquidLimitTareWeight, LiquidLimitWeight, 
+            """, (LiquidLimitTareNumber, LiquidLimitTareWeight, LiquidLimitWeight, 
             LiquidLimitDryWeight, LiquidLimitNumberOfBlows, LiquidLimitNotObtained, 
             PlasticLimitTareNumber, PlasticLimitTareWeight, PlasticLimitWetWeight, 
             PlasticLimitDryWeight, PlasticLimitNotObtained))
 
         conn.commit()
-        print("Data inserted successfully!")
+        print("Data inserted into Atterberg successfully!")
     except sqlite3.Error as e:
         print("An error occurred:", e)
-    finally:
-        conn.close()
+    conn.close()
 
 
 def open_new_window():
@@ -61,6 +112,7 @@ def open_new_window():
     tab4 = NewWindowComponents.create_tab4(notebook)
     tab5 = NewWindowComponents.create_tab5(notebook)
 
+    tab1_widgets = tab1.widgets
     tab2_widgets = tab2.widgets
 
     # submit and cancel button frame
@@ -80,7 +132,7 @@ def open_new_window():
     top_space.grid(row=0, column=0, columnspan=5, pady=(10, 0))
 
     # submit and cancel button
-    SubmitB = ttk.Button(BottomButtonsFrame, text = "Submit", command=lambda: insert_data(tab2_widgets))
+    SubmitB = ttk.Button(BottomButtonsFrame, text = "Submit", command=lambda: insert_data(tab1_widgets, tab2_widgets))
     CancelB = ttk.Button(BottomButtonsFrame, text = "Cancel", command=new_window.destroy)
 
     # submit and cancel button layout

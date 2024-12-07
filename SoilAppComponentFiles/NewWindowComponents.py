@@ -160,14 +160,7 @@ def setup_material_radio_buttons_frame(tab):
     AggregatRB.grid(column = 2, row = 1, sticky = (N, W), padx = (10, 0))
     ProficienRB.grid(column = 3, row = 1, sticky = (N, W), padx = (10, 0))
 
-    return materialRadioButtonsFrame, {
-        "MaterialVar": materialVar,
-        "SoilRB": SoilRB,
-        "CMARB": CMARB,
-        "OtheRB": OtheRB,
-        "AggregatRB": AggregatRB,
-        "ProficienRB": ProficienRB,
-    }
+    return materialRadioButtonsFrame, {"materialVar": materialVar}
 
 def setup_material_desc_frame(tab):
     materialDescFrame = ttk.Frame(tab)
@@ -235,7 +228,15 @@ def setup_tests_required_frame(tab):
     TestsRequiredL = ttk.Label(TestsRequiredFrame, text = "Tests Required")
     TestsRequiredL.grid(column = 0, row = 0, sticky=(N, W), padx = (0, 22))
 
+    # Variables for checkboxes
     classificatioBool = StringVar(value="FALSE")
+    ProctorBool = StringVar(value="FALSE")
+    CaliBool = StringVar(value="FALSE")
+    UnconBool = StringVar(value="FALSE")
+    SoilResBool = StringVar(value="FALSE")
+    PHBool = StringVar(value="FALSE")
+
+    # Checkboxes
     classificatioC = Checkbutton(
         TestsRequiredFrame,
         text="CLASSIFICATION",
@@ -243,7 +244,6 @@ def setup_tests_required_frame(tab):
         offvalue="FALSE",
         variable=classificatioBool
     )
-    ProctorBool = StringVar(value="FALSE")
     ProctorC = Checkbutton(
         TestsRequiredFrame,
         text="PROCTOR",
@@ -251,15 +251,13 @@ def setup_tests_required_frame(tab):
         offvalue="FALSE",
         variable=ProctorBool
     )
-    CaliBool = StringVar(value="FALSE")
     CaliC = Checkbutton(
         TestsRequiredFrame,
         text="CALIFORNIA BEARING RATIO",
-        onvalue="caliOn",
+        onvalue="TRUE",
         offvalue="FALSE",
         variable=CaliBool
     )
-    UnconBool = StringVar(value="FALSE")
     UnconC = Checkbutton(
         TestsRequiredFrame,
         text="UNCONFINED STRENGTH",
@@ -267,7 +265,6 @@ def setup_tests_required_frame(tab):
         offvalue="FALSE",
         variable=UnconBool
     )
-    SoilResBool = StringVar(value="FALSE")
     SoilResC = Checkbutton(
         TestsRequiredFrame,
         text="SOIL RESISTIVITY",
@@ -275,7 +272,6 @@ def setup_tests_required_frame(tab):
         offvalue="FALSE",
         variable=SoilResBool
     )
-    PHBool = StringVar(value="FALSE")
     pHC = Checkbutton(
         TestsRequiredFrame,
         text="pH",
@@ -289,11 +285,24 @@ def setup_tests_required_frame(tab):
     UnconC.grid(column = 1, row = 3, sticky = (N, W))
     SoilResC.grid(column = 1, row = 4, sticky = (N, W))
     pHC.grid(column = 1, row = 5, sticky = (N, W))
+
+    def get_selected_tests():
+        tests = []
+        if classificatioBool.get() == "TRUE":
+            tests.append("CLASSIFICATION")
+        if ProctorBool.get() == "TRUE":
+            tests.append("PROCTOR")
+        if CaliBool.get() == "TRUE": 
+            tests.append("CALIFORNIA BEARING RATIO")
+        if UnconBool.get() == "TRUE":
+            tests.append("UNCONFINED STRENGTH")
+        if SoilResBool.get() == "TRUE":
+            tests.append("SOIL RESISTIVITY")
+        if PHBool.get() == "TRUE":
+            tests.append("pH")
+        return " + ".join(tests)
     
-    return TestsRequiredFrame, {"classificatioBool": lambda: classificatioBool.get(),
-        "ProctorBool": lambda: ProctorBool.get(), "CaliBool": lambda: CaliBool.get(), 
-        "UnconBool": lambda: UnconBool.get(), "SoilResBool": lambda: SoilResBool.get(), 
-        "PHBool": lambda: PHBool.get()}
+    return TestsRequiredFrame, {"get_selected_tests": get_selected_tests,}
 
 def setup_test_title_frame(tab):
     TestTitleFrame = ttk.Frame(tab)
