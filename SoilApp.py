@@ -1,7 +1,7 @@
 import sqlite3
-import os
 from tkinter import *
 from tkinter import ttk
+from customtkinter import *
 from SoilAppComponentFiles import NewWindowComponents
 
 def insert_data(tab1_widgets, tab2_widgets):
@@ -78,7 +78,6 @@ def insert_data(tab1_widgets, tab2_widgets):
     PlasticLimitDryWeight = tab2_widgets["atterberg"]["DryPlas"].get()
     PlasticLimitNotObtained = tab2_widgets["atterberg"]["secondBool"]()
 
-    # Insert the data into the database
     try:
         cursor.execute("""
             INSERT INTO Atterberg (LiquidLimitTareNumber, LiquidLimitTareWeight, LiquidLimitWeight, 
@@ -101,7 +100,10 @@ def insert_data(tab1_widgets, tab2_widgets):
 def open_new_window():
     new_window = Toplevel(root)
     new_window.title("New Sample")
-    new_window.resizable(True, True)
+    new_window.resizable(False, False)
+
+    new_window.columnconfigure(0, weight=1)
+    new_window.rowconfigure(0, weight=1)
 
     # Notebook tabs
     notebook = ttk.Notebook(new_window)
@@ -115,58 +117,74 @@ def open_new_window():
     tab1_widgets = tab1.widgets
     tab2_widgets = tab2.widgets
 
+    root.update_idletasks()
+    root_width = root.winfo_width()
+    root_height = root.winfo_height()
+    root_x = root.winfo_x()
+    root_y = root.winfo_y()
+
     # submit and cancel button frame
     BottomButtonsFrame = ttk.Frame(new_window)
     BottomButtonsFrame.grid(column = 0, row = 20, columnspan = 7, sticky = "")
 
     # Geometry
-    new_window_resolution = "600x600"
-    window_width = int(root.winfo_screenwidth() / 2.1)
-    window_height = int(root.winfo_screenheight() / 1.2)
-    position_x = int((root.winfo_screenwidth() - window_width) / 2)
-    position_y = int((root.winfo_screenheight() - window_height) / 2.4)
-    #new_window.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
-    new_window.geometry(f"{new_window_resolution}+{position_x}+{position_y}")
+    window_width = int(root.winfo_screenwidth() / 1.5)
+    window_height = int(root.winfo_screenheight() / .8)
+    position_x = root_x + (root_width - window_width) // 2
+    position_y = root_y + (root_height - window_height) // 2
+    new_window.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
+
     # Extra padding at the top
     top_space = Label(tab1, text="")
     top_space.grid(row=0, column=0, columnspan=5, pady=(10, 0))
 
     # submit and cancel button
-    SubmitB = ttk.Button(BottomButtonsFrame, text = "Submit", command=lambda: insert_data(tab1_widgets, tab2_widgets))
-    CancelB = ttk.Button(BottomButtonsFrame, text = "Cancel", command=new_window.destroy)
+    SubmitB = CTkButton(BottomButtonsFrame, 
+        text = "Submit", 
+        command=lambda: insert_data(tab1_widgets, tab2_widgets),
+        border_color="#1751BD", 
+        border_width=2)
+    CancelB = CTkButton(BottomButtonsFrame, 
+        text = "Cancel", 
+        command=new_window.destroy,
+        border_color="#1751BD", 
+        border_width=2)
 
     # submit and cancel button layout
-    SubmitB.grid(column = 0, row = 0, sticky = (N, W), pady = (15, 0), padx=(0, 5))
-    CancelB.grid(column = 7, row = 0, sticky = (N, E), pady = (15, 0), padx=(5, 0))
+    SubmitB.grid(column = 0, row = 0, sticky = (N, W), pady = (10, 10), padx=(0, 5))
+    CancelB.grid(column = 7, row = 0, sticky = (N, E), pady = (10, 10), padx=(5, 0))
 
-root = Tk()
+root = CTk()
 root.title("Soil App")
 root.option_add('*tearOff', FALSE)
 root.columnconfigure(0, weight = 1)
 root.rowconfigure(0, weight = 1)
 
-window_width = int(root.winfo_screenwidth() / 1.5)
-window_height = int(root.winfo_screenheight() / 1.5)
-position_x = int((root.winfo_screenwidth() - window_width) / 2)
-position_y = int((root.winfo_screenheight() - window_height) / 2)
+root.update_idletasks()
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
 
-window_res = "380x300"
+window_width = int(screen_width / 1.5)
+window_height = int(screen_height / 1.5)
+position_x = (screen_width - window_width) // 2
+position_y = (screen_height - window_height) // 2
 
-root.geometry(f"{window_res}+{position_x}+{position_y}")
+root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
 
-mainframe = ttk.Frame(root)
+mainframe = CTkFrame(root, corner_radius=20)
 mainframe.grid(column = 0, row = 0, sticky = (N, W))
 
+
 # Top buttons
-New = ttk.Button(mainframe, text = "New", style="Custom.TButton", command = open_new_window)
+New = CTkButton(mainframe, text = "New", width=65, height = 25, border_color="#1751BD", border_width=2, command = open_new_window)
 New.grid(column = 0, row = 0, sticky = (N, W))
-Open = ttk.Button(mainframe, text = "Open")
+Open = CTkButton(mainframe, text = "Open", width=65, height = 25, border_color="#1751BD", border_width=2)
 Open.grid(column = 1, row = 0, sticky = (N, W))
-Save = ttk.Button(mainframe, text = "Save")
+Save = CTkButton(mainframe, text = "Save", width=65, height = 25, border_color="#1751BD", border_width=2)
 Save.grid(column = 2, row = 0, sticky = (N, W))
-Info = ttk.Button(mainframe, text = "Info")
+Info = CTkButton(mainframe, text = "Info", width=65, height = 25, border_color="#1751BD", border_width=2)
 Info.grid(column = 3, row = 0, sticky = (N, W))
-Help = ttk.Button(mainframe, text = "Help")
+Help = CTkButton(mainframe, text = "Help", width=65, height = 25, border_color="#1751BD", border_width=2)
 Help.grid(column = 4, row = 0, sticky = (N, W))
 
 root.mainloop()

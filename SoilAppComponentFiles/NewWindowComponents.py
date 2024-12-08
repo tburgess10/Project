@@ -1,22 +1,42 @@
 from tkinter import *
 from tkinter import ttk
+from customtkinter import *
 
 # Tab 1 functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def setup_station_frame(tab):
     stationFrame = ttk.Frame(tab)
     stationFrame.grid(column=2, row=10, columnspan=3, sticky=(N, W), padx=(10, 0))
 
-    StationL = ttk.Label(tab, text="Station")
-    StationL.grid(column=0, row=10, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    StationPlusL = ttk.Label(stationFrame, text="+")
-    StationPlusL.grid(column=1, row=0, sticky=(N, W), pady=(3, 3), padx=(0, 0))
+    StationL = CTkLabel(tab, 
+        text="Station", 
+        height=10, 
+        font=("Segoe UI", 12))
+    StationL.grid(column=0, row=10, columnspan=2, sticky=(N, W), pady = (3, 3))
+    StationPlusL = CTkLabel(stationFrame, 
+        text="+", 
+        height=10)
+    StationPlusL.grid(column=1, row=0, sticky=(N, W), pady=(3, 3))
 
     StationTV1 = StringVar()
     StationTV2 = StringVar()
 
-    StationE1 = ttk.Entry(stationFrame, textvariable= StationTV1, font=("Segoe UI", 8), width=8)
-    StationE2 = ttk.Entry(stationFrame, textvariable= StationTV2, font=("Segoe UI", 8), width=8)
-    StationE1.grid(column=0, row=0, sticky=(N, W), pady=(3, 3), padx=(10, 3))
+    StationE1 = CTkEntry(stationFrame, 
+        textvariable= StationTV1, 
+        font=("Segoe UI", 12), 
+        width=52, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    StationE2 = CTkEntry(stationFrame, 
+        textvariable= StationTV2, 
+        font=("Segoe UI", 12), 
+        width=53, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    StationE1.grid(column=0, row=0, sticky=(N, W), pady=(3, 3), padx=(3, 3))
     StationE2.grid(column=2, row=0, sticky=(N, W), pady=(3, 3), padx=(3, 0))
 
     return stationFrame, {"StationE1": StationE1, "StationE2": StationE2}
@@ -25,19 +45,42 @@ def setup_start_end_frame(tab):
     startEndFrame = ttk.Frame(tab)
     startEndFrame.grid(column=0, row=13, columnspan=5, sticky=(N, W))
 
-    StartL = ttk.Label(startEndFrame, text="Start")
-    EndL1 = ttk.Label(startEndFrame, text="ft   End")
-    EndL2 = ttk.Label(startEndFrame, text="ft")
-    StartL.grid(column=0, row=0, sticky=(N, W), pady=(3, 3), padx=(20, 0))
+    StartL = CTkLabel(startEndFrame, 
+        text="Start", 
+        height=10, 
+        font=("Segoe UI", 12))
+    EndL1 = CTkLabel(startEndFrame, 
+        text="ft   End", 
+        height=10, 
+        font=("Segoe UI", 12))
+    EndL2 = CTkLabel(startEndFrame, 
+        text="ft", 
+        height=10, 
+        font=("Segoe UI", 12))
+    StartL.grid(column=0, row=0, sticky=(N, W), pady=(3, 3))
     EndL1.grid(column=2, row=0, sticky=(N, W), pady=(3, 3), padx=(3, 0))
     EndL2.grid(column=4, row=0, sticky=(N, W), pady=(3, 3), padx=(3, 0))
 
     StartTV = StringVar()
     EndTV = StringVar()
 
-    StartE = ttk.Entry(startEndFrame, textvariable= StartTV, font=("Segoe UI", 8), width=7)
-    EndE = ttk.Entry(startEndFrame, textvariable= EndTV, font=("Segoe UI", 8), width=7)
-    StartE.grid(column=1, row=0, sticky=(N, W), pady = (3, 3), padx = (26, 0))
+    StartE = CTkEntry(startEndFrame, 
+        textvariable= StartTV, 
+        font=("Segoe UI", 12), 
+        width=40, 
+        height=10, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    EndE = CTkEntry(startEndFrame, 
+        textvariable= EndTV, 
+        font=("Segoe UI", 12), 
+        width=40, 
+        height=10, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    StartE.grid(column=1, row=0, sticky=(N, W), pady = (3, 3), padx = (33, 0))
     EndE.grid(column=3, row=0, sticky=(N, W), pady = (3, 3), padx = (21, 0))
 
     return startEndFrame, {"StartE": StartE, "EndE": EndE}
@@ -46,18 +89,37 @@ def setup_dataRecieved_to_routeNum_frame(tab):
     dataRecievedRouteNumFrame = ttk.Frame(tab)
     dataRecievedRouteNumFrame.grid(column=0, row=1, columnspan=5, rowspan=6)
 
-    DataRecievedL = ttk.Label(dataRecievedRouteNumFrame, text="Data Received")
-    DataSampledL = ttk.Label(dataRecievedRouteNumFrame, text="Data Sampled")
-    DataCompletedL = ttk.Label(dataRecievedRouteNumFrame, text="Date Completed")
-    ProjectNumL = ttk.Label(dataRecievedRouteNumFrame, text="Project #")
-    PlantNumL = ttk.Label(dataRecievedRouteNumFrame, text="Plant #")
-    RouteNumL = ttk.Label(dataRecievedRouteNumFrame, text="Route #")
-    DataRecievedL.grid(column=0, row=1, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    DataSampledL.grid(column=0, row=2, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    DataCompletedL.grid(column=0, row=3, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    ProjectNumL.grid(column=0, row=4, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    PlantNumL.grid(column=0, row=5, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    RouteNumL.grid(column=0, row=6, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
+    DataRecievedL = CTkLabel(dataRecievedRouteNumFrame, 
+        text="Data Received", 
+        height=10, 
+        font=("Segoe UI", 12),
+        justify="left")
+    DataSampledL = CTkLabel(dataRecievedRouteNumFrame, 
+        text="Data Sampled", 
+        height=10, 
+        font=("Segoe UI", 12))
+    DataCompletedL = CTkLabel(dataRecievedRouteNumFrame, 
+        text="Date Completed", 
+        height=10, 
+        font=("Segoe UI", 12))
+    ProjectNumL = CTkLabel(dataRecievedRouteNumFrame, 
+        text="Project #", 
+        height=10, 
+        font=("Segoe UI", 12))
+    PlantNumL = CTkLabel(dataRecievedRouteNumFrame, 
+        text="Plant #", 
+        height=10, 
+        font=("Segoe UI", 12))
+    RouteNumL = CTkLabel(dataRecievedRouteNumFrame, 
+        text="Route #", 
+        height=10, 
+        font=("Segoe UI", 12))
+    DataRecievedL.grid(column=0, row=1, columnspan=2, sticky=(N, W), pady = (3, 3))
+    DataSampledL.grid(column=0, row=2, columnspan=2, sticky=(N, W), pady = (3, 3))
+    DataCompletedL.grid(column=0, row=3, columnspan=2, sticky=(N, W), pady = (3, 3))
+    ProjectNumL.grid(column=0, row=4, columnspan=2, sticky=(N, W), pady = (3, 3))
+    PlantNumL.grid(column=0, row=5, columnspan=2, sticky=(N, W), pady = (3, 3))
+    RouteNumL.grid(column=0, row=6, columnspan=2, sticky=(N, W), pady = (3, 3))
 
     DataRecievedE = StringVar()
     DataSampledE = StringVar()
@@ -66,12 +128,55 @@ def setup_dataRecieved_to_routeNum_frame(tab):
     PlantNumE = StringVar()
     RouteNumE = StringVar()
 
-    DataRecievedE = ttk.Entry(dataRecievedRouteNumFrame, textvariable= DataRecievedE, font=("Segoe UI", 8))
-    DataSampledE = ttk.Entry(dataRecievedRouteNumFrame, textvariable= DataSampledE, font=("Segoe UI", 8))
-    DataCompletedE = ttk.Entry(dataRecievedRouteNumFrame, textvariable= DataCompletedE, font=("Segoe UI", 8))
-    ProjectNumE = ttk.Entry(dataRecievedRouteNumFrame, textvariable= ProjectNumE, font=("Segoe UI", 8))
-    PlantNumE = ttk.Entry(dataRecievedRouteNumFrame, textvariable= PlantNumE, font=("Segoe UI", 8))
-    RouteNumE = ttk.Entry(dataRecievedRouteNumFrame, textvariable= RouteNumE, font=("Segoe UI", 8))
+    DataRecievedE = CTkEntry(dataRecievedRouteNumFrame, 
+        textvariable= DataRecievedE, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    DataSampledE = CTkEntry(dataRecievedRouteNumFrame, 
+        textvariable= DataSampledE, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    DataCompletedE = CTkEntry(dataRecievedRouteNumFrame, 
+        textvariable= DataCompletedE, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    ProjectNumE = CTkEntry(dataRecievedRouteNumFrame, 
+        textvariable= ProjectNumE, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    PlantNumE = CTkEntry(dataRecievedRouteNumFrame, 
+        textvariable= 
+        PlantNumE, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    RouteNumE = CTkEntry(dataRecievedRouteNumFrame, 
+        textvariable= RouteNumE, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     DataRecievedE.grid(column=2, row=1, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (6, 0))
     DataSampledE.grid(column=2, row=2, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (6, 0))
     DataCompletedE.grid(column=2, row=3, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (6, 0))
@@ -87,13 +192,23 @@ def setup_city_county_frame(tab):
     cityCountyFrame = ttk.Frame(tab)
     cityCountyFrame.grid(column=0, row=7, columnspan=5, sticky=(N,W))
 
-    CityOrCountyL = ttk.Label(cityCountyFrame, text="City or County")
-    CityOrCountyL.grid(column=0, row=7, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
+    CityOrCountyL = CTkLabel(cityCountyFrame, 
+        text="City or County", 
+        height=10, 
+        font=("Segoe UI", 12))
+    CityOrCountyL.grid(column=0, row=7, columnspan=2, sticky=(N, W), pady = (3, 3))
 
     cityCountyVAR = StringVar()
 
-    CityOrCountyCB = ttk.Combobox(cityCountyFrame, textvariable= cityCountyVAR, width = 17)
-    CityOrCountyCB.grid(column = 2, row = 7, sticky=(N, W), pady = (3, 3), padx = (21, 0))
+    CityOrCountyCB = CTkEntry(cityCountyFrame, 
+        textvariable=cityCountyVAR, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    CityOrCountyCB.grid(column = 2, row = 7, sticky=(N, W), pady = (3, 3), padx = (20, 0))
 
     return cityCountyFrame, {"CityOrCountyCB": CityOrCountyCB}
 
@@ -101,18 +216,38 @@ def setup_fieldSample_to_submitted_frame(tab):
     fieldSampleSubmittedFrame = ttk.Frame(tab)
     fieldSampleSubmittedFrame.grid(column=0, row=8, columnspan=5, rowspan=2, sticky=(N,W))
 
-    FieldSampleL = ttk.Label(fieldSampleSubmittedFrame, text="Field Sample #")
-    SubmittedByL = ttk.Label(fieldSampleSubmittedFrame, text="Submitted By")
-    FieldSampleL.grid(column=0, row=8, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    SubmittedByL.grid(column=0, row=9, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
+    FieldSampleL = CTkLabel(fieldSampleSubmittedFrame, 
+        text="Field Sample #", 
+        height=10, 
+        font=("Segoe UI", 12))
+    SubmittedByL = CTkLabel(fieldSampleSubmittedFrame, 
+        text="Submitted By", 
+        height=10, 
+        font=("Segoe UI", 12))
+    FieldSampleL.grid(column=0, row=8, columnspan=2, sticky=(N, W), pady = (3, 3))
+    SubmittedByL.grid(column=0, row=9, columnspan=2, sticky=(N, W), pady = (3, 3))
 
     FieldSampleTV = StringVar()
     SubmittedByTV = StringVar()
 
-    FieldSampleE = ttk.Entry(fieldSampleSubmittedFrame, textvariable= FieldSampleTV, font=("Segoe UI", 8))
-    SubmittedByE = ttk.Entry(fieldSampleSubmittedFrame, textvariable= SubmittedByTV, font=("Segoe UI", 8))
-    FieldSampleE.grid(column=2, row=8, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (21, 0))
-    SubmittedByE.grid(column=2, row=9, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (21, 0))
+    FieldSampleE = CTkEntry(fieldSampleSubmittedFrame, 
+        textvariable= FieldSampleTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    SubmittedByE = CTkEntry(fieldSampleSubmittedFrame, 
+        textvariable= SubmittedByTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    FieldSampleE.grid(column=2, row=8, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (18, 0))
+    SubmittedByE.grid(column=2, row=9, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (18, 0))
 
     return fieldSampleSubmittedFrame, {"FieldSampleE": FieldSampleE, "SubmittedByE": SubmittedByE}
 
@@ -120,44 +255,115 @@ def setup_sampleLoc_to_structureB_frame(tab):
     sampleLocStructureBFrame = ttk.Frame(tab)
     sampleLocStructureBFrame.grid(column=0, row=11, columnspan=5, rowspan=2, sticky=(N,W))
 
-    SampleLocationL = ttk.Label(sampleLocStructureBFrame, text="Sample Location")
-    StructureBoringL = ttk.Label(sampleLocStructureBFrame, text="Structure/Boring")
-    SampleLocationL.grid(column=0, row=11, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
-    StructureBoringL.grid(column=0, row=12, columnspan=2, sticky=(N, W), pady = (3, 3), padx = (20, 0))
+    SampleLocationL = CTkLabel(sampleLocStructureBFrame, 
+        text="Sample Location", 
+        height=10, 
+        font=("Segoe UI", 12))
+    StructureBoringL = CTkLabel(sampleLocStructureBFrame, 
+        text="Structure/Boring", 
+        height=10, 
+        font=("Segoe UI", 12))
+    SampleLocationL.grid(column=0, row=11, columnspan=2, sticky=(N, W), pady = (3, 3))
+    StructureBoringL.grid(column=0, row=12, columnspan=2, sticky=(N, W), pady = (3, 3))
 
     SampleLocationTV = StringVar()
     StructureBoringTV = StringVar()
 
-    SampleLocationE = ttk.Entry(sampleLocStructureBFrame, textvariable= SampleLocationTV, font=("Segoe UI", 8))
-    StructureBoringE = ttk.Entry(sampleLocStructureBFrame, textvariable= StructureBoringTV, font=("Segoe UI", 8))
-    SampleLocationE.grid(column=2, row=11, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (10, 0))
-    StructureBoringE.grid(column=2, row=12, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (10, 0))
+    SampleLocationE = CTkEntry(sampleLocStructureBFrame, 
+        textvariable= SampleLocationTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    StructureBoringE = CTkEntry(sampleLocStructureBFrame, 
+        textvariable= StructureBoringTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    SampleLocationE.grid(column=2, row=11, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (9, 0))
+    StructureBoringE.grid(column=2, row=12, columnspan=3, sticky=(N, W), pady = (3, 3), padx = (9, 0))
 
     return sampleLocStructureBFrame, {"SampleLocationE": SampleLocationE, "StructureBoringE": StructureBoringE}
 
 def setup_material_radio_buttons_frame(tab):
     materialRadioButtonsFrame = ttk.Frame(tab)
-    materialRadioButtonsFrame.grid(column=0, row=14, columnspan=5, rowspan=2, sticky=(N,W))
+    materialRadioButtonsFrame.grid(column=0, row=14, columnspan=5, rowspan=2, sticky=(N,W), pady=(5, 0))
 
     innerMaterialRadioBFrame = ttk.Frame(materialRadioButtonsFrame)
     innerMaterialRadioBFrame.grid(column = 2, row = 0, columnspan = 3, sticky = (N, W))
 
-    MaterialL = ttk.Label(materialRadioButtonsFrame, text="Material")
-    MaterialL.grid(column=0, row=0, columnspan=2, sticky=(N, W), pady = (10, 0), padx = (20, 0))
+    MaterialL = CTkLabel(materialRadioButtonsFrame, 
+        text="Material", 
+        height=10, 
+        font=("Segoe UI", 12))
+    MaterialL.grid(column=0, row=0, columnspan=2, sticky=(N, W), pady = (10, 0))
 
     materialVar = IntVar(value=0)
 
-    style = ttk.Style()
-    style.configure("Custom.TRadiobutton", font=("Segoe UI", 8), padding=(0,0))
-    SoilRB = ttk.Radiobutton(innerMaterialRadioBFrame, value=0, variable= materialVar, text= "SOIL", style="Custom.TRadiobutton")
-    CMARB = ttk.Radiobutton(innerMaterialRadioBFrame, value=1, variable= materialVar, text= "CMA", style="Custom.TRadiobutton")
-    OtheRB = ttk.Radiobutton(innerMaterialRadioBFrame, value=2, variable= materialVar, text= "OTHER", style="Custom.TRadiobutton")
-    AggregatRB = ttk.Radiobutton(materialRadioButtonsFrame, value=3, variable= materialVar, text= "AGGREGATE", style="Custom.TRadiobutton")
-    ProficienRB = ttk.Radiobutton(materialRadioButtonsFrame, value=4, variable= materialVar, text= "PROFICIENCY", style="Custom.TRadiobutton")
+    SoilRB = CTkRadioButton(innerMaterialRadioBFrame, 
+        value=0, 
+        variable= materialVar, 
+        text= "SOIL", 
+        radiobutton_width=10, 
+        radiobutton_height=10, 
+        width=30, 
+        height=10, 
+        font=("Segoe UI", 10),
+        border_width_unchecked=1,
+        border_color="#BABBBE")
+    CMARB = CTkRadioButton(innerMaterialRadioBFrame, 
+        value=1, 
+        variable= materialVar, 
+        text= "CMA", 
+        radiobutton_width=10, 
+        radiobutton_height=10, 
+        width=30, 
+        height=10, 
+        font=("Segoe UI", 10),
+        border_width_unchecked=1,
+        border_color="#BABBBE")
+    OtheRB = CTkRadioButton(innerMaterialRadioBFrame, 
+        value=2, 
+        variable= materialVar, 
+        text= "OTHER", 
+        radiobutton_width=10, 
+        radiobutton_height=10, 
+        width=30, 
+        height=10, 
+        font=("Segoe UI", 10),
+        border_width_unchecked=1,
+        border_color="#BABBBE")
+    AggregatRB = CTkRadioButton(materialRadioButtonsFrame, 
+        value=3, 
+        variable= materialVar, 
+        text= "AGGREGATE", 
+        radiobutton_width=10, 
+        radiobutton_height=10, 
+        width=10, 
+        height=10, 
+        font=("Segoe UI", 10),
+        border_width_unchecked=1,
+        border_color="#BABBBE")
+    ProficienRB = CTkRadioButton(materialRadioButtonsFrame, 
+        value=4, 
+        variable= materialVar, 
+        text= "PROFICIENCY", 
+        radiobutton_width=10, 
+        radiobutton_height=10, 
+        width=10, 
+        height=10, 
+        font=("Segoe UI", 10),
+        border_width_unchecked=1,
+        border_color="#BABBBE")
     SoilRB.grid(column = 0, row = 0, sticky = (N, W), padx = (10, 0))
     CMARB.grid(column = 1, row = 0, sticky = (N, W), padx = (15, 0))
     OtheRB.grid(column = 2, row = 0, sticky = (N, W), padx = (15, 0))
-    AggregatRB.grid(column = 2, row = 1, sticky = (N, W), padx = (10, 0))
+    AggregatRB.grid(column = 2, row = 1, sticky = (N, W), padx = (15, 0))
     ProficienRB.grid(column = 3, row = 1, sticky = (N, W), padx = (10, 0))
 
     return materialRadioButtonsFrame, {"materialVar": materialVar}
@@ -166,11 +372,21 @@ def setup_material_desc_frame(tab):
     materialDescFrame = ttk.Frame(tab)
     materialDescFrame.grid(column = 0, row = 16, columnspan = 5, rowspan = 3, sticky = (N, W))
 
-    MaterialDescriptionL = ttk.Label(materialDescFrame, text="Material\nDescription")
-    MaterialDescriptionL.grid(column=0, row=0, columnspan=2, sticky=(N, W), pady = (15, 0), padx = (20, 0))
+    MaterialDescriptionL = CTkLabel(materialDescFrame, 
+        text="Material\nDescription", 
+        height=10, 
+        justify="left", 
+        font=("Segoe UI", 12))
+    MaterialDescriptionL.grid(column=0, row=0, columnspan=2, sticky=(N, W), pady = (15, 0))
     
-    materialDescT = Text(materialDescFrame, height = 5, width = 20, font = ("Segoe UI", 8))
-    materialDescT.grid(column = 2, row = 0, sticky = (N, W), padx=(38, 0))
+    materialDescT = CTkTextbox(materialDescFrame, 
+        font = ("Segoe UI", 12), 
+        width = 120, 
+        height = 70, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    materialDescT.grid(column = 2, row = 0, sticky = (N, W), padx=(38, 0), pady=(10, 0))
 
     def get_material_description():
         return materialDescT.get("1.0", "end-1c")
@@ -193,11 +409,26 @@ def setup_time_charge_info_frame(tab):
     TimeChargeInfoTopFrame = ttk.Frame(tab)
     TimeChargeInfoTopFrame.grid(column=6, row=1, sticky=(N,W), padx=(60, 0))
 
-    TimeChargeInfoL = ttk.Label(TimeChargeInfoTopFrame, text = "TIME CHARGE INFORMATION")
-    UPCCodeL = ttk.Label(TimeChargeInfoFrame, text = "UPC Code")
-    DepartmentCodeL = ttk.Label(TimeChargeInfoFrame, text = "Department Code")
-    TaskCodeL = ttk.Label(TimeChargeInfoFrame, text = "Task Code")
-    ActivityCodeL = ttk.Label(TimeChargeInfoFrame, text = "Activity Code")
+    TimeChargeInfoL = CTkLabel(TimeChargeInfoTopFrame, 
+        text = "TIME CHARGE INFORMATION",
+        height=10, 
+        font=("Segoe UI", 12))
+    UPCCodeL = CTkLabel(TimeChargeInfoFrame, 
+        text = "UPC Code",
+        height=10, 
+        font=("Segoe UI", 12))
+    DepartmentCodeL = CTkLabel(TimeChargeInfoFrame, 
+        text = "Department Code",
+        height=10, 
+        font=("Segoe UI", 12))
+    TaskCodeL = CTkLabel(TimeChargeInfoFrame, 
+        text = "Task Code",
+        height=10, 
+        font=("Segoe UI", 12))
+    ActivityCodeL = CTkLabel(TimeChargeInfoFrame, 
+        text = "Activity Code",
+        height=10, 
+        font=("Segoe UI", 12))
     TimeChargeInfoL.grid(column = 0, row = 0, sticky=(N, W), pady = (0, 5), padx = (35, 0))
     UPCCodeL.grid(column = 0, row = 2, sticky=(N, W), pady = (3, 3), padx = (0, 5))
     DepartmentCodeL.grid(column = 0, row = 3, sticky=(N, W), pady = (3, 3), padx = (0, 5))
@@ -209,10 +440,38 @@ def setup_time_charge_info_frame(tab):
     TaskCodeTV = StringVar()
     ActivityCodeTV = StringVar()
 
-    UPCCodeE = ttk.Entry(TimeChargeInfoFrame, textvariable= UPCCodeTV, font=("Segoe UI", 8))
-    DepartmentCodeE = ttk.Entry(TimeChargeInfoFrame, textvariable= DepartmentCodeTV, font=("Segoe UI", 8))
-    TaskCodeE = ttk.Entry(TimeChargeInfoFrame, textvariable= TaskCodeTV, font=("Segoe UI", 8))
-    ActivityCodeE = ttk.Entry(TimeChargeInfoFrame, textvariable= ActivityCodeTV, font=("Segoe UI", 8))
+    UPCCodeE = CTkEntry(TimeChargeInfoFrame, 
+        textvariable= UPCCodeTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    DepartmentCodeE = CTkEntry(TimeChargeInfoFrame, 
+        textvariable= DepartmentCodeTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    TaskCodeE = CTkEntry(TimeChargeInfoFrame, 
+        textvariable= TaskCodeTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    ActivityCodeE = CTkEntry(TimeChargeInfoFrame, 
+        textvariable= ActivityCodeTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     UPCCodeE.grid(column = 1, row = 2, sticky=(N, W), pady = (3, 3), padx = (5, 0))
     DepartmentCodeE.grid(column = 1, row = 3, sticky=(N, W), pady = (3, 3), padx = (5, 0))
     TaskCodeE.grid(column = 1, row = 4, sticky=(N, W), pady = (3, 3), padx = (5, 0))
@@ -225,7 +484,10 @@ def setup_tests_required_frame(tab):
     TestsRequiredFrame = ttk.Frame(tab)
     TestsRequiredFrame.grid(column = 6, row = 7, rowspan = 6, sticky = (N, W), padx = (60, 0))
 
-    TestsRequiredL = ttk.Label(TestsRequiredFrame, text = "Tests Required")
+    TestsRequiredL = CTkLabel(TestsRequiredFrame, 
+        text = "Tests Required",
+        height=10, 
+        font=("Segoe UI", 12))
     TestsRequiredL.grid(column = 0, row = 0, sticky=(N, W), padx = (0, 22))
 
     # Variables for checkboxes
@@ -237,47 +499,83 @@ def setup_tests_required_frame(tab):
     PHBool = StringVar(value="FALSE")
 
     # Checkboxes
-    classificatioC = Checkbutton(
+    classificatioC = CTkCheckBox(
         TestsRequiredFrame,
         text="CLASSIFICATION",
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=classificatioBool
+        variable=classificatioBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text_color="#414143"
     )
-    ProctorC = Checkbutton(
+    ProctorC = CTkCheckBox(
         TestsRequiredFrame,
         text="PROCTOR",
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=ProctorBool
+        variable=ProctorBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text_color="#414143"
     )
-    CaliC = Checkbutton(
+    CaliC = CTkCheckBox(
         TestsRequiredFrame,
         text="CALIFORNIA BEARING RATIO",
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=CaliBool
+        variable=CaliBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text_color="#414143"
     )
-    UnconC = Checkbutton(
+    UnconC = CTkCheckBox(
         TestsRequiredFrame,
         text="UNCONFINED STRENGTH",
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=UnconBool
+        variable=UnconBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text_color="#414143"
     )
-    SoilResC = Checkbutton(
+    SoilResC = CTkCheckBox(
         TestsRequiredFrame,
         text="SOIL RESISTIVITY",
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=SoilResBool
+        variable=SoilResBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text_color="#414143"
     )
-    pHC = Checkbutton(
+    pHC = CTkCheckBox(
         TestsRequiredFrame,
         text="pH",
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=PHBool
+        variable=PHBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text_color="#414143"
     )
     classificatioC.grid(column = 1, row = 0, sticky = (N, W))
     ProctorC.grid(column = 1, row = 1, sticky = (N, W))
@@ -308,17 +606,37 @@ def setup_test_title_frame(tab):
     TestTitleFrame = ttk.Frame(tab)
     TestTitleFrame.grid(column = 6, row = 14, rowspan = 2, sticky = (N, W), padx = (60, 0))
 
-    TestedByL = ttk.Label(TestTitleFrame, text = "Tested by:")
-    TitleL = ttk.Label(TestTitleFrame, text = "Title:")
+    TestedByL = CTkLabel(TestTitleFrame, 
+        text = "Tested by:",
+        height=10, 
+        font=("Segoe UI", 12))
+    TitleL = CTkLabel(TestTitleFrame, 
+        text = "Title:",
+        height=10, 
+        font=("Segoe UI", 12))
     TestedByL.grid(column = 0, row = 0, sticky = (N, W), pady = (0, 3))
     TitleL.grid(column = 0, row = 1, sticky = (N, W), pady = (3, 0))
 
     TestedByTV = StringVar()
     TitleTV = StringVar()
 
-    TestedByCB = ttk.Combobox(TestTitleFrame, textvariable= TestedByTV, width = 17)
-    TitleCB = ttk.Combobox(TestTitleFrame, textvariable= TitleTV, width = 17)
-    TestedByCB.grid(column = 1, row = 0, sticky=(N, W), padx = (49, 0))
+    TestedByCB = CTkEntry(TestTitleFrame, 
+        textvariable= TestedByTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    TitleCB = CTkEntry(TestTitleFrame, 
+        textvariable= TitleTV, 
+        font=("Segoe UI", 12), 
+        width=120, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    TestedByCB.grid(column = 1, row = 0, sticky=(N, W), padx = (49, 0), pady=(0, 5))
     TitleCB.grid(column = 1, row = 1, sticky=(N, W), padx = (49, 0))
 
     return TestTitleFrame, {"TestedByCB": TestedByCB, "TitleCB": TitleCB}
@@ -327,10 +645,19 @@ def setup_remarks_frame(tab):
     RemarksFrame = ttk.Frame(tab)
     RemarksFrame.grid(column = 6, row = 16, rowspan = 2, sticky = (N, W), padx = (60, 0), pady = (30, 0))
 
-    RemarksL = ttk.Label(RemarksFrame, text = "Remarks")
+    RemarksL = CTkLabel(RemarksFrame, 
+        text = "Remarks",
+        height=10, 
+        font=("Segoe UI", 12))
     RemarksL.grid(column = 0, row = 0, sticky = (N, W), pady = (20, 0))
 
-    RemarksT = Text(RemarksFrame, height = 5, width = 20, font = ("Segoe UI", 8))
+    RemarksT = CTkTextbox(RemarksFrame, 
+        font = ("Segoe UI", 12), 
+        width = 120, 
+        height = 70, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     RemarksT.grid(column = 1, row = 0, sticky = (N, W), padx = (57, 0), pady = (0, 20))
 
     def get_remarks_description():
@@ -347,8 +674,12 @@ def setup_remarks_frame(tab):
     }
 
 def create_tab1(notebook):
+    style = ttk.Style()
+    style.configure("TNotebook.Tab", font=("Segoe UI", 14))
+
     tab1 = ttk.Frame(notebook)
     notebook.add(tab1, text="Details")
+    tab1['padding'] = (30, 0, 0, 0)
 
     stationFrame, station_widgets = setup_station_frame(tab1)
     startEndFrame, startEnd_widgets = setup_start_end_frame(tab1)
