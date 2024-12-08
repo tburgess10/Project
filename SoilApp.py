@@ -112,7 +112,7 @@ def open_new_window():
     tab2 = NewWindowComponents.create_tab2(notebook)
     tab3 = NewWindowComponents.create_tab3(notebook)
     tab4 = NewWindowComponents.create_tab4(notebook)
-    tab5 = NewWindowComponents.create_tab5(notebook)
+    #tab5 = NewWindowComponents.create_tab5(notebook)
 
     tab1_widgets = tab1.widgets
     tab2_widgets = tab2.widgets

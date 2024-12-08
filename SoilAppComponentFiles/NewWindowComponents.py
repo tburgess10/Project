@@ -714,17 +714,44 @@ def create_tab1(notebook):
 # Tab 2 functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def setup_atterberg_Frame(tab):
-    atterbergFrame = ttk.Labelframe(tab, text='Atterberg', padding=(20, 20, 20, 20))
+    style = ttk.Style()
+    style.configure("Custom.TLabelframe.Label", font=("Segoe UI", 14))
+    style.configure("Custom.TLabelframe", padding=(20, 20, 20, 20))
+    atterbergFrame = ttk.Labelframe(tab, text='Atterberg', style="Custom.TLabelframe")
     atterbergFrame.grid(column=1, row=1, sticky=(N,W))
 
-    LiquedLimL = ttk.Label(atterbergFrame, text="Liquid Limit")
-    PlasticLimL = ttk.Label(atterbergFrame, text="Plastic Limit")
-    CupNumL = ttk.Label(atterbergFrame, text="Cup #")
-    CupWeightL = ttk.Label(atterbergFrame, text="Cup Weight")
-    WetWeightL = ttk.Label(atterbergFrame, text="Wet Weight")
-    DryWeightL = ttk.Label(atterbergFrame, text="Dry Weight")
-    NumBlowsL = ttk.Label(atterbergFrame, text="# Blows")
-    CannotBeL = ttk.Label(atterbergFrame, text="Cannot Be Determined")
+    LiquedLimL = CTkLabel(atterbergFrame, 
+        text="Liquid Limit",
+        height=10, 
+        font=("Segoe UI", 12))
+    PlasticLimL = CTkLabel(atterbergFrame, 
+        text="Plastic Limit",
+        height=10, 
+        font=("Segoe UI", 12))
+    CupNumL = CTkLabel(atterbergFrame, 
+        text="Cup #",
+        height=10, 
+        font=("Segoe UI", 12))
+    CupWeightL = CTkLabel(atterbergFrame, 
+        text="Cup Weight",
+        height=10, 
+        font=("Segoe UI", 12))
+    WetWeightL = CTkLabel(atterbergFrame,
+         text="Wet Weight",
+        height=10, 
+        font=("Segoe UI", 12))
+    DryWeightL = CTkLabel(atterbergFrame, 
+        text="Dry Weight",
+        height=10, 
+        font=("Segoe UI", 12))
+    NumBlowsL = CTkLabel(atterbergFrame, 
+        text="# Blows",
+        height=10, 
+        font=("Segoe UI", 12))
+    CannotBeL = CTkLabel(atterbergFrame, 
+        text="Cannot Be\n Determined",
+        height=10, 
+        font=("Segoe UI", 12))
     LiquedLimL.grid(column=1, row=0, sticky=(N,W), padx=(10, 10))
     PlasticLimL.grid(column=2, row=0, sticky=(N,W))
     CupNumL.grid(column=0, row=1, sticky=(N,W), padx=(50, 0), pady=(5, 5))
@@ -732,7 +759,7 @@ def setup_atterberg_Frame(tab):
     WetWeightL.grid(column=0, row=3, sticky=(N,W), padx=(50, 0), pady=(5, 5))
     DryWeightL.grid(column=0, row=4, sticky=(N,W), padx=(50, 0), pady=(5, 5))
     NumBlowsL.grid(column=0, row=5, sticky=(N,W), padx=(50, 0), pady=(5, 5))
-    CannotBeL.grid(column=0, row=6, sticky=(N,W))
+    CannotBeL.grid(column=0, row=6, sticky=(N,W), padx=(50, 0))
 
     CupLiqTV = StringVar()
     CupPlasTV = StringVar()
@@ -744,15 +771,78 @@ def setup_atterberg_Frame(tab):
     DryPlasTV = StringVar()
     BlowsETV = StringVar()
 
-    CupLiqE = ttk.Entry(atterbergFrame, textvariable= CupLiqTV,  width=10)
-    CupPlasE = ttk.Entry(atterbergFrame, textvariable= CupPlasTV, width=10)
-    CupWLiqE = ttk.Entry(atterbergFrame, textvariable= CupWLiqTV, width=10)
-    CupWPlasE = ttk.Entry(atterbergFrame, textvariable= CupWPlasTV, width=10)
-    WetLiqE = ttk.Entry(atterbergFrame, textvariable= WetLiqTV, width=10)
-    WetPlasE = ttk.Entry(atterbergFrame, textvariable= WetPlasTV, width=10)
-    DryLiq = ttk.Entry(atterbergFrame, textvariable= DryLiqTV, width=10)
-    DryPlas = ttk.Entry(atterbergFrame, textvariable= DryPlasTV, width=10)
-    BlowsE = ttk.Entry(atterbergFrame, textvariable= BlowsETV, width=10)
+    CupLiqE = CTkEntry(atterbergFrame, 
+        textvariable= CupLiqTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    CupPlasE = CTkEntry(atterbergFrame, 
+        textvariable= CupPlasTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    CupWLiqE = CTkEntry(atterbergFrame, 
+        textvariable= CupWLiqTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    CupWPlasE = CTkEntry(atterbergFrame, 
+        textvariable= CupWPlasTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    WetLiqE = CTkEntry(atterbergFrame, 
+        textvariable= WetLiqTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    WetPlasE = CTkEntry(atterbergFrame, 
+        textvariable= WetPlasTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    DryLiq = CTkEntry(atterbergFrame, 
+        textvariable= DryLiqTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    DryPlas = CTkEntry(atterbergFrame, 
+        textvariable= DryPlasTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    BlowsE = CTkEntry(atterbergFrame, 
+        textvariable= BlowsETV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     CupLiqE.grid(column=1, row=1)
     CupPlasE.grid(column=2, row=1)
     CupWLiqE.grid(column=1, row=2)
@@ -764,19 +854,31 @@ def setup_atterberg_Frame(tab):
     BlowsE.grid(column=1, row=5)
     
     firstBool = StringVar(value="FALSE")
-    firstC = Checkbutton(
+    firstC = CTkCheckBox(
         atterbergFrame,
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=firstBool
-    )
+        variable=firstBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text="",
+        width=10)
     secondBool = StringVar(value="FALSE")
-    secondC = Checkbutton(
+    secondC = CTkCheckBox(
         atterbergFrame,
         onvalue="TRUE",
         offvalue="FALSE",
-        variable=secondBool
-    )
+        variable=secondBool,
+        border_width=1,
+        corner_radius=0,
+        checkbox_width=10,
+        checkbox_height=10,
+        border_color="#BABBBE",
+        text="",
+        width=10)
     firstC.grid(column=1, row=6)
     secondC.grid(column=2, row=6)
 
@@ -791,14 +893,32 @@ def setup_atterberg_Frame(tab):
         "secondCheckbutton": secondC}
 
 def setup_field_moisture_frame(tab):
-    fieldMoistureFrame = ttk.Labelframe(tab, text='Field Moisture', padding=(20, 20, 20, 20))
+    style = ttk.Style()
+    style.configure("Custom.TLabelframe.Label", font=("Segoe UI", 14))
+    style.configure("Custom.TLabelframe", padding=(20, 20, 20, 20))
+    fieldMoistureFrame = ttk.Labelframe(tab, text='Field Moisture', style="Custom.TLabelframe")
     fieldMoistureFrame.grid(column=2, row=1)
 
-    cupNumL = ttk.Label(fieldMoistureFrame, text="Cup #")
-    cupWeightL = ttk.Label(fieldMoistureFrame, text="Cup Weight")
-    wetWeightL = ttk.Label(fieldMoistureFrame, text="Wet Weight")
-    dryWeightL = ttk.Label(fieldMoistureFrame, text="Dry Weight")
-    fieldMoistL = ttk.Label(fieldMoistureFrame, text="Field Moisture if\n      provided")
+    cupNumL = CTkLabel(fieldMoistureFrame, 
+        text="Cup #",
+        height=10, 
+        font=("Segoe UI", 12))
+    cupWeightL = CTkLabel(fieldMoistureFrame, 
+        text="Cup Weight",
+        height=10, 
+        font=("Segoe UI", 12))
+    wetWeightL = CTkLabel(fieldMoistureFrame, 
+        text="Wet Weight",
+        height=10, 
+        font=("Segoe UI", 12))
+    dryWeightL = CTkLabel(fieldMoistureFrame, 
+        text="Dry Weight",
+        height=10, 
+        font=("Segoe UI", 12))
+    fieldMoistL = CTkLabel(fieldMoistureFrame, 
+        text="Field Moisture if\n      provided",
+        height=10, 
+        font=("Segoe UI", 12))
     cupNumL.grid(column=0, row=0, sticky=(N,W))
     cupWeightL.grid(column=0, row=1, sticky=(N,W))
     wetWeightL.grid(column=0, row=2, sticky=(N,W))
@@ -811,11 +931,46 @@ def setup_field_moisture_frame(tab):
     dryWeightTV = StringVar()
     fieldMoistTV = StringVar()
 
-    cupNumE = ttk.Entry(fieldMoistureFrame, textvariable= cupNumTV, width=10)
-    cupWeightE = ttk.Entry(fieldMoistureFrame, textvariable= cupWeightTV, width=10)
-    wetWeightE = ttk.Entry(fieldMoistureFrame, textvariable= wetWeightTV, width=10)
-    dryWeightE = ttk.Entry(fieldMoistureFrame, textvariable= dryWeightTV, width=10)
-    fieldMoistE = ttk.Entry(fieldMoistureFrame, textvariable= fieldMoistTV, width=10)
+    cupNumE = CTkEntry(fieldMoistureFrame, 
+        textvariable= cupNumTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    cupWeightE = CTkEntry(fieldMoistureFrame, 
+        textvariable= cupWeightTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    wetWeightE = CTkEntry(fieldMoistureFrame, 
+        textvariable= wetWeightTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    dryWeightE = CTkEntry(fieldMoistureFrame, 
+        textvariable= dryWeightTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
+    fieldMoistE = CTkEntry(fieldMoistureFrame, 
+        textvariable= fieldMoistTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     cupNumE.grid(column=1, row=0, sticky=(N,W), pady=(0,3), padx=(7, 0))
     cupWeightE.grid(column=1, row=1, sticky=(N,W), pady=(3,3), padx=(7, 0))
     wetWeightE.grid(column=1, row=2, sticky=(N,W), pady=(3,3), padx=(7, 0))
@@ -851,14 +1006,22 @@ def setup_date_completed_frame(tab):
     dateCompletedFrame = ttk.Frame(tab, padding=(20, 20, 20, 20))
     dateCompletedFrame.grid(column=0, row=0, sticky=(N,W))
 
-    style = ttk.Style()
-    style.configure("TEntry", highlightthickness=2) 
-    dateComL = ttk.Label(dateCompletedFrame, text="Date Completed")
+    dateComL = CTkLabel(dateCompletedFrame, 
+        text="Date Completed",
+        height=10, 
+        font=("Segoe UI", 12))
     dateComL.grid(column=0, row=0, sticky=(N,W), padx=(0, 10))
 
     dateComTV = StringVar()
 
-    dateComE = ttk.Entry(dateCompletedFrame, width=10, textvariable= dateComTV, style="TEntry")
+    dateComE = CTkEntry(dateCompletedFrame, 
+        textvariable= dateComTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dateComE.grid(column=1, row=0)
 
     return dateCompletedFrame, {"dateComE": dateComE}
@@ -867,21 +1030,37 @@ def setup_mold_frame(tab):
     moldFrame = ttk.Frame(tab)
     moldFrame.grid(column=0, row=1)
 
-    moldWeightL = ttk.Label(moldFrame, text="Weight of Mold (grams)")
-    moldNumL = ttk.Label(moldFrame, text="Mold #")
-    style = ttk.Style()
-    style.configure("TCombobox", highlightthickness=2)
-    style2 = ttk.Style()
-    style2.configure("TEntry", highlightthickness=2) 
+    moldWeightL = CTkLabel(moldFrame, 
+        text="Weight of Mold (grams)",
+        height=10, 
+        font=("Segoe UI", 12))
+    moldNumL = CTkLabel(moldFrame, 
+        text="Mold #",
+        height=10, 
+        font=("Segoe UI", 12))
     moldWeightL.grid(column=0, row=0, sticky=(N,W), padx=(0, 10))
     moldNumL.grid(column=0, row=1, sticky=(N,E), padx=(0, 10), pady=(5, 0))
 
     moldWeightTV = StringVar()
     moldNumTV = StringVar()
 
-    moldWeightE = ttk.Entry(moldFrame, textvariable= moldWeightTV, width=10, style="TEntry")
+    moldWeightE = CTkEntry(moldFrame, 
+        textvariable= moldWeightTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     moldWeightE.grid(column=1, row=0, sticky=(N,W), pady=(0, 5))
-    moldNumCB = ttk.Combobox(moldFrame, textvariable= moldNumTV, width=7, style="TCombobox")
+    moldNumCB = CTkEntry(moldFrame, 
+        textvariable= moldNumTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     moldNumCB.grid(column=1, row=1, sticky=(N,W), pady=(5, 0))
 
     return moldFrame, {"moldWeightE": moldWeightE, "moldNumCB": moldNumCB}
@@ -890,22 +1069,46 @@ def setup_point_frame(tab):
     pointFrame = ttk.Frame(tab)
     pointFrame.grid(column=0, row=2, sticky=(N,W))
 
-    pointL1 = ttk.Label(pointFrame, text="Point")
+    pointL1 = CTkLabel(pointFrame, 
+        text="Point",
+        height=10, 
+        font=("Segoe UI", 12))
     pointL1.grid(column=0, row=1, sticky=(N,W), padx=(0, 10), pady=(5, 5))
-    pointL2 = ttk.Label(pointFrame, text="Point")
+    pointL2 = CTkLabel(pointFrame, 
+        text="Point",
+        height=10, 
+        font=("Segoe UI", 12))
     pointL2.grid(column=0, row=2, sticky=(N,W), pady=(5, 5))
-    pointL3 = ttk.Label(pointFrame, text="Point")
+    pointL3 = CTkLabel(pointFrame, 
+        text="Point",
+        height=10, 
+        font=("Segoe UI", 12))
     pointL3.grid(column=0, row=3, sticky=(N,W), pady=(5, 5))
-    pointL4 = ttk.Label(pointFrame, text="Point")
+    pointL4 = CTkLabel(pointFrame, 
+        text="Point",
+        height=10, 
+        font=("Segoe UI", 12))
     pointL4.grid(column=0, row=4, sticky=(N,W), pady=(5, 5))
-    pointL5 = ttk.Label(pointFrame, text="Point")
+    pointL5 = CTkLabel(pointFrame, 
+        text="Point",
+        height=10, 
+        font=("Segoe UI", 12))
     pointL5.grid(column=0, row=5, sticky=(N,W), pady=(5, 5))
-    pointL6 = ttk.Label(pointFrame, text="Point")
+    pointL6 = CTkLabel(pointFrame, 
+        text="Point",
+        height=10, 
+        font=("Segoe UI", 12))
     pointL6.grid(column=0, row=6, sticky=(N,W), pady=(5, 5))
-    pointL7 = ttk.Label(pointFrame, text="Point")
+    pointL7 = CTkLabel(pointFrame, 
+        text="Point",
+        height=10, 
+        font=("Segoe UI", 12))
     pointL7.grid(column=0, row=7, sticky=(N,W), pady=(5, 0))
 
-    WoCSL = ttk.Label(pointFrame, text="   Weight of \n Compacted \n     Sample \n     (grams)")
+    WoCSL = CTkLabel(pointFrame, 
+        text="   Weight of \n Compacted \n     Sample \n     (grams)",
+        height=10, 
+        font=("Segoe UI", 12))
     WoCSL.grid(column=1, row=0, sticky=(N,W), pady=(0, 10))
 
     WoCSLTV1 = StringVar()
@@ -916,22 +1119,74 @@ def setup_point_frame(tab):
     WoCSLTV6 = StringVar()
     WoCSLTV7 = StringVar()
 
-    WoCSLE1 = ttk.Entry(pointFrame, textvariable= WoCSLTV1, width=10)
+    WoCSLE1 = CTkEntry(pointFrame, 
+        textvariable= WoCSLTV1, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoCSLE1.grid(column=1, row=1, sticky=(N,W), padx=(0, 10))
-    WoCSLE2 = ttk.Entry(pointFrame, textvariable= WoCSLTV2, width=10)
+    WoCSLE2 = CTkEntry(pointFrame, 
+        textvariable= WoCSLTV2, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoCSLE2.grid(column=1, row=2, sticky=(N,W))
-    WoCSLE3 = ttk.Entry(pointFrame, textvariable= WoCSLTV3, width=10)
+    WoCSLE3 = CTkEntry(pointFrame, 
+        textvariable= WoCSLTV3, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoCSLE3.grid(column=1, row=3, sticky=(N,W))
-    WoCSLE4 = ttk.Entry(pointFrame, textvariable= WoCSLTV4, width=10)
+    WoCSLE4 = CTkEntry(pointFrame, 
+        textvariable= WoCSLTV4, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoCSLE4.grid(column=1, row=4, sticky=(N,W))
-    WoCSLE5 = ttk.Entry(pointFrame, textvariable= WoCSLTV5, width=10)
+    WoCSLE5 = CTkEntry(pointFrame, 
+        textvariable= WoCSLTV5, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoCSLE5.grid(column=1, row=5, sticky=(N,W))
-    WoCSLE6 = ttk.Entry(pointFrame, textvariable= WoCSLTV6, width=10)
+    WoCSLE6 = CTkEntry(pointFrame, 
+        textvariable= WoCSLTV6, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoCSLE6.grid(column=1, row=6, sticky=(N,W))
-    WoCSLE7 = ttk.Entry(pointFrame, textvariable= WoCSLTV7, width=10)
+    WoCSLE7 = CTkEntry(pointFrame, 
+        textvariable= WoCSLTV7, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoCSLE7.grid(column=1, row=7, sticky=(N,W))
 
-    dishNumL = ttk.Label(pointFrame, text="Dish Number")
+    dishNumL = CTkLabel(pointFrame, 
+        text="Dish Number",
+        height=10, 
+        font=("Segoe UI", 12))
     dishNumL.grid(column=2, row=0, sticky=(S,W), pady=(0, 10))
 
     dishNumTV1 = StringVar()
@@ -942,22 +1197,74 @@ def setup_point_frame(tab):
     dishNumTV6 = StringVar()
     dishNumTV7 = StringVar()
 
-    dishNumE1 = ttk.Entry(pointFrame, textvariable= dishNumTV1, width=10)
+    dishNumE1 = CTkEntry(pointFrame, 
+        textvariable= dishNumTV1, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dishNumE1.grid(column=2, row=1, sticky=(N,W), padx=(0, 10))
-    dishNumE2 = ttk.Entry(pointFrame, textvariable= dishNumTV2, width=10)
+    dishNumE2 = CTkEntry(pointFrame, 
+        textvariable= dishNumTV2, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dishNumE2.grid(column=2, row=2, sticky=(N,W))
-    dishNumE3 = ttk.Entry(pointFrame, textvariable= dishNumTV3, width=10)
+    dishNumE3 = CTkEntry(pointFrame, 
+        textvariable= dishNumTV3, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dishNumE3.grid(column=2, row=3, sticky=(N,W))
-    dishNumE4 = ttk.Entry(pointFrame, textvariable= dishNumTV4, width=10)
+    dishNumE4 = CTkEntry(pointFrame, 
+        textvariable= dishNumTV4, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dishNumE4.grid(column=2, row=4, sticky=(N,W))
-    dishNumE5 = ttk.Entry(pointFrame, textvariable= dishNumTV5, width=10)
+    dishNumE5 = CTkEntry(pointFrame, 
+        textvariable= dishNumTV5, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dishNumE5.grid(column=2, row=5, sticky=(N,W))
-    dishNumE6 = ttk.Entry(pointFrame, textvariable= dishNumTV6, width=10)
+    dishNumE6 = CTkEntry(pointFrame, 
+        textvariable= dishNumTV6, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dishNumE6.grid(column=2, row=6, sticky=(N,W))
-    dishNumE7 = ttk.Entry(pointFrame, textvariable= dishNumTV7, width=10)
+    dishNumE7 = CTkEntry(pointFrame, 
+        textvariable= dishNumTV7, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     dishNumE7.grid(column=2, row=7, sticky=(N,W))
 
-    WoDL = ttk.Label(pointFrame, text="   Weight of \n Dish (grams)")
+    WoDL = CTkLabel(pointFrame, 
+        text="   Weight of \n Dish (grams)",
+        height=10, 
+        font=("Segoe UI", 12))
     WoDL.grid(column=3, row=0, sticky=(S), pady=(0, 10))
 
     WoDTV1 = StringVar()
@@ -968,22 +1275,74 @@ def setup_point_frame(tab):
     WoDTV6 = StringVar()
     WoDTV7 = StringVar()
 
-    WoDE1 = ttk.Entry(pointFrame, textvariable= WoDTV1, width=10)
+    WoDE1 = CTkEntry(pointFrame, 
+        textvariable= WoDTV1, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDE1.grid(column=3, row=1, sticky=(N,W), padx=(0, 10))
-    WoDE2 = ttk.Entry(pointFrame, textvariable= WoDTV2, width=10)
+    WoDE2 = CTkEntry(pointFrame, 
+        textvariable= WoDTV2, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDE2.grid(column=3, row=2, sticky=(N,W))
-    WoDE3 = ttk.Entry(pointFrame, textvariable= WoDTV3, width=10)
+    WoDE3 = CTkEntry(pointFrame, 
+        textvariable= WoDTV3, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDE3.grid(column=3, row=3, sticky=(N,W))
-    WoDE4 = ttk.Entry(pointFrame, textvariable= WoDTV4, width=10)
+    WoDE4 = CTkEntry(pointFrame, 
+        textvariable= WoDTV4, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDE4.grid(column=3, row=4, sticky=(N,W))
-    WoDE5 = ttk.Entry(pointFrame, textvariable= WoDTV5, width=10)
+    WoDE5 = CTkEntry(pointFrame, 
+        textvariable= WoDTV5, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDE5.grid(column=3, row=5, sticky=(N,W))
-    WoDE6 = ttk.Entry(pointFrame, textvariable= WoDTV6, width=10)
+    WoDE6 = CTkEntry(pointFrame, 
+        textvariable= WoDTV6, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDE6.grid(column=3, row=6, sticky=(N,W))
-    WoDE7 = ttk.Entry(pointFrame, textvariable= WoDTV7, width=10)
+    WoDE7 = CTkEntry(pointFrame, 
+        textvariable= WoDTV7, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDE7.grid(column=3, row=7, sticky=(N,W))
 
-    WoDaWSL = ttk.Label(pointFrame, text="Weight of \n Dish and \n Wet Soil \n (grams)")
+    WoDaWSL = CTkLabel(pointFrame, 
+        text="Weight of \n Dish and \n Wet Soil \n (grams)",
+        height=10, 
+        font=("Segoe UI", 12))
     WoDaWSL.grid(column=4, row=0, sticky=(S), pady=(0, 10))
 
     WoDaWSTV1 = StringVar()
@@ -994,22 +1353,74 @@ def setup_point_frame(tab):
     WoDaWSTV6 = StringVar()
     WoDaWSTV7 = StringVar()
 
-    WoDaWSE1 = ttk.Entry(pointFrame, textvariable= WoDaWSTV1, width=10)
+    WoDaWSE1 = CTkEntry(pointFrame, 
+        textvariable= WoDaWSTV1, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaWSE1.grid(column=4, row=1, sticky=(N,W), padx=(0, 10))
-    WoDaWSE2 = ttk.Entry(pointFrame, textvariable= WoDaWSTV2, width=10)
+    WoDaWSE2 = CTkEntry(pointFrame, 
+        textvariable= WoDaWSTV2, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaWSE2.grid(column=4, row=2, sticky=(N,W))
-    WoDaWSE3 = ttk.Entry(pointFrame, textvariable= WoDaWSTV3, width=10)
+    WoDaWSE3 = CTkEntry(pointFrame, 
+        textvariable= WoDaWSTV3, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaWSE3.grid(column=4, row=3, sticky=(N,W))
-    WoDaWSE4 = ttk.Entry(pointFrame, textvariable= WoDaWSTV4, width=10)
+    WoDaWSE4 = CTkEntry(pointFrame, 
+        textvariable= WoDaWSTV4, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaWSE4.grid(column=4, row=4, sticky=(N,W))
-    WoDaWSE5 = ttk.Entry(pointFrame, textvariable= WoDaWSTV5, width=10)
+    WoDaWSE5 = CTkEntry(pointFrame, 
+        textvariable= WoDaWSTV5, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaWSE5.grid(column=4, row=5, sticky=(N,W))
-    WoDaWSE6 = ttk.Entry(pointFrame, textvariable= WoDaWSTV6, width=10)
+    WoDaWSE6 = CTkEntry(pointFrame, 
+        textvariable= WoDaWSTV6, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaWSE6.grid(column=4, row=6, sticky=(N,W))
-    WoDaWSE7 = ttk.Entry(pointFrame, textvariable= WoDaWSTV7, width=10)
+    WoDaWSE7 = CTkEntry(pointFrame, 
+        textvariable= WoDaWSTV7, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaWSE7.grid(column=4, row=7, sticky=(N,W))
 
-    WoDaDSL = ttk.Label(pointFrame, text="Weight of \n Dish and \n Dry Soil \n (grams)")
+    WoDaDSL = CTkLabel(pointFrame, 
+        text="Weight of \n Dish and \n Dry Soil \n (grams)",
+        height=10, 
+        font=("Segoe UI", 12))
     WoDaDSL.grid(column=5, row=0, sticky=(S), pady=(0, 10))
 
     WoDaDSTV1 = StringVar()
@@ -1020,19 +1431,68 @@ def setup_point_frame(tab):
     WoDaDSTV6 = StringVar()
     WoDaDSTV7 = StringVar()
 
-    WoDaDSE1 = ttk.Entry(pointFrame, textvariable= WoDaDSTV1, width=10)
+    WoDaDSE1 = CTkEntry(pointFrame, 
+        textvariable= WoDaDSTV1, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaDSE1.grid(column=5, row=1, sticky=(N,W))
-    WoDaDSE2 = ttk.Entry(pointFrame, textvariable= WoDaDSTV2, width=10)
+    WoDaDSE2 = CTkEntry(pointFrame, 
+        textvariable= WoDaDSTV2, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaDSE2.grid(column=5, row=2, sticky=(N,W))
-    WoDaDSE3 = ttk.Entry(pointFrame, textvariable= WoDaDSTV3, width=10)
+    WoDaDSE3 = CTkEntry(pointFrame, 
+        textvariable= WoDaDSTV3, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaDSE3.grid(column=5, row=3, sticky=(N,W))
-    WoDaDSE4 = ttk.Entry(pointFrame, textvariable= WoDaDSTV4, width=10)
+    WoDaDSE4 = CTkEntry(pointFrame, 
+        textvariable= WoDaDSTV4, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaDSE4.grid(column=5, row=4, sticky=(N,W))
-    WoDaDSE5 = ttk.Entry(pointFrame, textvariable= WoDaDSTV5, width=10)
+    WoDaDSE5 = CTkEntry(pointFrame, 
+        textvariable= WoDaDSTV5, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaDSE5.grid(column=5, row=5, sticky=(N,W))
-    WoDaDSE6 = ttk.Entry(pointFrame, textvariable= WoDaDSTV6, width=10)
+    WoDaDSE6 = CTkEntry(pointFrame, 
+        textvariable= WoDaDSTV6, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaDSE6.grid(column=5, row=6, sticky=(N,W))
-    WoDaDSE7 = ttk.Entry(pointFrame, textvariable= WoDaDSTV7, width=10)
+    WoDaDSE7 = CTkEntry(pointFrame, 
+        textvariable= WoDaDSTV7, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     WoDaDSE7.grid(column=5, row=7, sticky=(N,W))
 
     return pointFrame, {"WoCSLE1": WoCSLE1, 
@@ -1092,21 +1552,45 @@ def setup_main_frame(tab):
     mainFrame = ttk.Frame(tab)
     mainFrame.grid(column=1, row=1)
 
-    TotalWeightL = ttk.Label(mainFrame, text="Total Weight")
+    TotalWeightL = CTkLabel(mainFrame, 
+        text="Total Weight",
+        height=10, 
+        font=("Segoe UI", 12))
     TotalWeightL.grid(column=0, row=1, sticky=(N,E), padx=(0, 10), pady=(3, 0))
-    OneHalfL = ttk.Label(mainFrame, text="1 1/2\"")
+    OneHalfL = CTkLabel(mainFrame, 
+        text="1 1/2\"",
+        height=10, 
+        font=("Segoe UI", 12))
     OneHalfL.grid(column=0, row=2, sticky=(N,E), padx=(0, 10), pady=(3, 0))
-    OneL = ttk.Label(mainFrame, text="1\"")
+    OneL = CTkLabel(mainFrame, 
+        text="1\"",
+        height=10, 
+        font=("Segoe UI", 12))
     OneL.grid(column=0, row=3, sticky=(N,E), padx=(0, 10), pady=(3, 0))
-    ThreeFourthsL = ttk.Label(mainFrame, text="3/4\"")
+    ThreeFourthsL = CTkLabel(mainFrame, 
+        text="3/4\"",
+        height=10, 
+        font=("Segoe UI", 12))
     ThreeFourthsL.grid(column=0, row=4, sticky=(N,E), padx=(0, 10), pady=(3, 0))
-    ThreeEigthsL = ttk.Label(mainFrame, text="3/8\"")
+    ThreeEigthsL = CTkLabel(mainFrame, 
+        text="3/8\"",
+        height=10, 
+        font=("Segoe UI", 12))
     ThreeEigthsL.grid(column=0, row=5, sticky=(N,E), padx=(0, 10), pady=(3, 0))
-    NumFourL = ttk.Label(mainFrame, text="#4")
+    NumFourL = CTkLabel(mainFrame, 
+        text="#4",
+        height=10, 
+        font=("Segoe UI", 12))
     NumFourL.grid(column=0, row=6, sticky=(N,E), padx=(0, 10), pady=(3, 0))
-    NumTenL = ttk.Label(mainFrame, text="#10")
+    NumTenL = CTkLabel(mainFrame, 
+        text="#10",
+        height=10, 
+        font=("Segoe UI", 12))
     NumTenL.grid(column=0, row=7, sticky=(N,E), padx=(0, 10), pady=(3, 0))
-    gramsL = ttk.Label(mainFrame, text="(grams)")
+    gramsL = CTkLabel(mainFrame, 
+        text="(grams)",
+        height=10, 
+        font=("Segoe UI", 12))
     gramsL.grid(column=1, row=0, pady=(0, 10), sticky="")
 
     TotalWeightTV = StringVar()
@@ -1117,37 +1601,110 @@ def setup_main_frame(tab):
     NumFourTV = StringVar()
     NumTenTV = StringVar()
 
-    TotalWeightE = ttk.Entry(mainFrame, textvariable= TotalWeightTV, width=10)
+    TotalWeightE = CTkEntry(mainFrame, 
+        textvariable= TotalWeightTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     TotalWeightE.grid(column=1, row=1, sticky=(N,W), pady=(3, 3))
-    OneHalfE = ttk.Entry(mainFrame, textvariable= OneHalfTV, width=10)
+    OneHalfE = CTkEntry(mainFrame, 
+        textvariable= OneHalfTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     OneHalfE.grid(column=1, row=2, sticky=(N,W), pady=(3, 3))
-    OneE = ttk.Entry(mainFrame, textvariable= OneTV, width=10)
+    OneE = CTkEntry(mainFrame, 
+        textvariable= OneTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     OneE.grid(column=1, row=3, sticky=(N,W), pady=(3, 3))
-    ThreeFourthsE = ttk.Entry(mainFrame, textvariable= ThreeFourthsTV, width=10)
+    ThreeFourthsE = CTkEntry(mainFrame, 
+        textvariable= ThreeFourthsTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     ThreeFourthsE.grid(column=1, row=4, sticky=(N,W), pady=(3, 3))
-    ThreeEigthsE = ttk.Entry(mainFrame, textvariable= ThreeEigthsTV, width=10)
+    ThreeEigthsE = CTkEntry(mainFrame, 
+        textvariable= ThreeEigthsTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     ThreeEigthsE.grid(column=1, row=5, sticky=(N,W), pady=(3, 3))
-    NumFourE = ttk.Entry(mainFrame, textvariable= NumFourTV, width=10)
+    NumFourE = CTkEntry(mainFrame, 
+        textvariable= NumFourTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumFourE.grid(column=1, row=6, sticky=(N,W), pady=(3, 3))
-    NumTenE = ttk.Entry(mainFrame, textvariable= NumTenTV, width=10)
+    NumTenE = CTkEntry(mainFrame, 
+        textvariable= NumTenTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumTenE.grid(column=1, row=7, sticky=(N,W), pady=(3, 3))
 
-    FinesWeightL = ttk.Label(mainFrame, text="Fines Weight")
+    FinesWeightL = CTkLabel(mainFrame, 
+        text="Fines Weight",
+        height=10, 
+        font=("Segoe UI", 12))
     FinesWeightL.grid(column=2, row=1, sticky=(N,E), padx=(20, 10))
-    NumTwentyL = ttk.Label(mainFrame, text="#20")
+    NumTwentyL = CTkLabel(mainFrame, 
+        text="#20",
+        height=10, 
+        font=("Segoe UI", 12))
     NumTwentyL.grid(column=2, row=2, sticky=(N,E), padx=(0, 10))
-    NumFortyL = ttk.Label(mainFrame, text="#40")
+    NumFortyL = CTkLabel(mainFrame, 
+        text="#40",
+        height=10, 
+        font=("Segoe UI", 12))
     NumFortyL.grid(column=2, row=3, sticky=(N,E), padx=(0, 10))
-    NumSixtyL = ttk.Label(mainFrame, text="#60")
+    NumSixtyL = CTkLabel(mainFrame, 
+        text="#60",
+        height=10, 
+        font=("Segoe UI", 12))
     NumSixtyL.grid(column=2, row=4, sticky=(N,E), padx=(0, 10))
-    NumEightyL = ttk.Label(mainFrame, text="#80")
+    NumEightyL = CTkLabel(mainFrame, 
+        text="#80",
+        height=10, 
+        font=("Segoe UI", 12))
     NumEightyL.grid(column=2, row=5, sticky=(N,E), padx=(0, 10))
-    NumHundredL = ttk.Label(mainFrame, text="#100")
+    NumHundredL = CTkLabel(mainFrame, 
+        text="#100",
+        height=10, 
+        font=("Segoe UI", 12))
     NumHundredL.grid(column=2, row=6, sticky=(N,E), padx=(0, 10))
-    NumTwoHundredL = ttk.Label(mainFrame, text="#200")
+    NumTwoHundredL = CTkLabel(mainFrame, 
+        text="#200",
+        height=10, 
+        font=("Segoe UI", 12))
     NumTwoHundredL.grid(column=2, row=7, sticky=(N,E), padx=(0, 10))
 
-    gramsL2 = ttk.Label(mainFrame, text="(grams)")
+    gramsL2 = CTkLabel(mainFrame, 
+        text="(grams)",
+        height=10, 
+        font=("Segoe UI", 12))
     gramsL2.grid(column=3, row=0, pady=(0, 10), sticky="")
 
     FinesWeightTV = StringVar()
@@ -1158,19 +1715,68 @@ def setup_main_frame(tab):
     NumHundredTV = StringVar()
     NumTwoHundredTV = StringVar()
 
-    FinesWeightE = ttk.Entry(mainFrame, textvariable= FinesWeightTV, width=10)
+    FinesWeightE = CTkEntry(mainFrame, 
+        textvariable= FinesWeightTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     FinesWeightE.grid(column=3, row=1, sticky=(N,W))
-    NumTwentyE = ttk.Entry(mainFrame, textvariable= NumTwentyTV, width=10)
+    NumTwentyE = CTkEntry(mainFrame, 
+        textvariable= NumTwentyTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumTwentyE.grid(column=3, row=2, sticky=(N,W))
-    NumFortyE = ttk.Entry(mainFrame, textvariable= NumFortyTV, width=10)
+    NumFortyE = CTkEntry(mainFrame, 
+        textvariable= NumFortyTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumFortyE.grid(column=3, row=3, sticky=(N,W))
-    NumSixtyE = ttk.Entry(mainFrame, textvariable= NumSixtyTV, width=10)
+    NumSixtyE = CTkEntry(mainFrame, 
+        textvariable= NumSixtyTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumSixtyE.grid(column=3, row=4, sticky=(N,W))
-    NumEightyE = ttk.Entry(mainFrame, textvariable= NumEightyTV, width=10)
+    NumEightyE = CTkEntry(mainFrame, 
+        textvariable= NumEightyTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumEightyE.grid(column=3, row=5, sticky=(N,W))
-    NumHundredE = ttk.Entry(mainFrame, textvariable= NumHundredTV, width=10)
+    NumHundredE = CTkEntry(mainFrame, 
+        textvariable= NumHundredTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumHundredE.grid(column=3, row=6, sticky=(N,W))
-    NumTwoHundredE = ttk.Entry(mainFrame, textvariable= NumTwoHundredTV, width=10)
+    NumTwoHundredE = CTkEntry(mainFrame, 
+        textvariable= NumTwoHundredTV, 
+        font=("Segoe UI", 12), 
+        width=60, 
+        height=20, 
+        corner_radius=0, 
+        border_width=1,
+        border_color="#BABBBE")
     NumTwoHundredE.grid(column=3, row=7, sticky=(N,W))
 
     return mainFrame, {"TotalWeightE": TotalWeightE, 
