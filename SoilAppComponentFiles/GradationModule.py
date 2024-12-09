@@ -94,23 +94,21 @@ class GradationModule:
 
     def store_gradation_results(self, test_id, sieve_order, weights_retained, cumulative_retain, percent_passing):
         cursor = self.db_connection.cursor()
-
+    
         try:
             for i, sieve in enumerate(sieve_order):
                 query = """
-                UPDATE MoistureDensityResult
+                UPDATE GradationResults
                 SET CumulativeRetained = ?, PercentPassing = ?
-                WHERE GradationTestResultID = ?
+                WHERE GradationTestID = ?
                 """
                 values = (
-                    test_id,
-                    sieve['SieveID'],
-                    weights_retained[i],
                     cumulative_retain[i],
-                    percent_passing[i]
+                    percent_passing[i],
+                    sieve['SieveID']  
                 )
                 cursor.execute(query, values)
-
+    
             self.db_connection.commit()
             print("Gradation results updated successfully.")
         except sqlite3.Error as e:
