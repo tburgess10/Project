@@ -1,207 +1,165 @@
 import sqlite3
+import numpy as np
 
-class AtterbergLimitsModule:
+class MoistureDensityModule:
     def __init__(self, db_connection):
-        self.db_connection_path = db_connection
-        self.conn = None
+        self.db_connection = db_connection
+        self.results = []
 
-    def __enter__(self):
-        self.conn = sqlite3.connect(self.db_connection_path)
-        print(f"Connected to database: {self.db_connection_path}")
-        return self
+    def fetch_test_data(self, test_id):
+        """ Fetches test data from the database based on a test ID. """
+        cursor = self.db_connection.cursor()
+        cursor.execute("SELECT * FROM MoistureDensityResult WHERE MoistureDensityTestID = ?", (test_id,))
+        test_data = cursor.fetchone()
+        return test_data
 
-    def __exit__(self, exc_type, exc_value, traceback):
-        if self.conn:
-            self.conn.close()
+    def fetch_test_points(self, test_id):
+        """ Fetches test point data associated with a given test ID. """
+        cursor = self.db_connection.cursor()
+        cursor.execute("SELECT * FROM Proctor WHERE MoistureDensityTestID = ?", (test_id,))
+        test_points = cursor.fetchall()
+        return test_points
 
-    def fetch_all_sample_ids(self):
-        """
-        Fetch all SampleID values from the database.
-        """
-        query = "SELECT DISTINCT SampleID FROM Atterberg"  # Adjust table name
-        cursor = self.conn.cursor()
-        cursor.execute(query)
-        sample_ids = [row[0] for row in cursor.fetchall()]
-        return sample_ids
+    def calculate_percent_moisture(self, tare_weight, tare_and_wet_soil_weight, tare_and_dry_soil_weight):
+        """ Calculate the percent moisture of the soil. """
+        water_weight = tare_and_wet_soil_weight - tare_and_dry_soil_weight
+        dry_soil_weight = tare_and_dry_soil_weight - tare_weight
+        percent_moisture = (water_weight / dry_soil_weight) * 100
+        return round(percent_moisture, 2)
 
+    def calculate_wet_density(self, compacted_sample_weight, mold_weight, mold_volume):
+        """ Calculate the wet density (lbs./cu.ft.). """
+        wet_density = (compacted_sample_weight - mold_weight) / mold_volume
+        return round(wet_density, 2)
 
-    def fetch_data(self, sample_id):
-        """Fetches the Atterberg limits data for a given SampleID, skipping rows with invalid data types."""
-        cursor = self.conn.cursor()
-        query = """
-        SELECT SampleID, LiquidLimitTareWeight, LiquidLimitWeight,
-               LiquidLimitDryWeight, LiquidLimitNumberOfBlows, LiquidLimitNotObtained,
-               PlasticLimitTareWeight, PlasticLimitWetWeight, PlasticLimitDryWeight,
-               PlasticLimitNotObtained
-        FROM Atterberg
-        WHERE SampleID = ?
-        """
-        cursor.execute(query, (sample_id,))
-        row = cursor.fetchone()
-    
-        if row:
-            try:
-                # Convert values to the appropriate types
-                data = {
-                    'SampleID': row[0],
-                    'LiquidLimitTareWeight': float(row[1]),
-                    'LiquidLimitWeight': float(row[2]),
-                    'LiquidLimitDryWeight': float(row[3]),
-                    'LiquidLimitNumberOfBlows': int(row[4]),
-                    'LiquidLimitNotObtained': str(row[5]).strip().upper() if row[5] is not None else None,
-                    'PlasticLimitTareWeight': float(row[6]),
-                    'PlasticLimitWetWeight': float(row[7]),
-                    'PlasticLimitDryWeight': float(row[8]),
-                    'PlasticLimitNotObtained': str(row[9]).strip().upper() if row[9] is not None else None,
-                }
-                print(f"Fetched and processed data: {data}")
-                return data
-            except (TypeError, ValueError) as e:
-                print(f"Skipping row for SampleID {sample_id} due to invalid data: {e}")
-                return None
-        else:
-            print(f"No valid data found for SampleID {sample_id}.")
-            return None
+    def calculate_dry_density(self, wet_density, percent_moisture):
+        """ Calculate the dry density (lbs./cu.ft.). """
+        dry_density = wet_density / (1 + (percent_moisture / 100))
+        return round(dry_density, 2)
 
+    def fit_quadratic_curve(self, moisture_contents, dry_densities):
+        """ Fit a quadratic curve (y = ax^2 + bx + c) to the data points. """
+        coefficients = np.polyfit(moisture_contents, dry_densities, 2)
+        a, b, c = coefficients
+        return a, b, c
 
-    def validate_atterberg_data(self, data):
-        """ Validates input data for Atterberg limits testing. """
-        if not data.get('LiquidLimitNotObtained'):
-            required_fields = ['LiquidLimitTareWeight', 'LiquidLimitWeight', 'LiquidLimitDryWeight', 'LiquidLimitNumberOfBlows']
-            for field in required_fields:
-                if field not in data or data[field] is None:
-                    return False, f"{field} is required for Liquid Limit."
-            if data['LiquidLimitWeight'] <= data['LiquidLimitDryWeight']:
-                return False, "Liquid Limit Wet Weight must be greater than Dry Weight."
-        
-        if not data.get('PlasticLimitNotObtained'):
-            required_fields = ['PlasticLimitTareWeight', 'PlasticLimitWetWeight', 'PlasticLimitDryWeight']
-            for field in required_fields:
-                if field not in data or data[field] is None:
-                    return False, f"{field} is required for Plastic Limit."
-            if data['PlasticLimitWetWeight'] <= data['PlasticLimitDryWeight']:
-                return False, "Plastic Limit Wet Weight must be greater than Dry Weight."
-        
-        return True, ""
+    def find_optimum_moisture_and_max_density(self, a, b, c):
+        """ Find the optimum moisture content and maximum dry density. """
+        optimum_moisture = -b / (2 * a)
+        max_dry_density = a * optimum_moisture**2 + b * optimum_moisture + c
+        return round(optimum_moisture, 2), round(max_dry_density, 2)
 
-    def calculate_percent_moisture(self, tare_weight, wet_weight, dry_weight):
-        if tare_weight is None or wet_weight is None or dry_weight is None:
-            print("Invalid input for percent moisture calculation.")
-            return None
-        water_weight = wet_weight - dry_weight
-        dry_soil_weight = dry_weight - tare_weight
-        if dry_soil_weight == 0:
-            print("Error: Dry soil weight is zero.")
-            return None
-        percent_moisture = round((water_weight / dry_soil_weight) * 100, 2)
-        print(f"Percent Moisture: {percent_moisture}%")
-        return percent_moisture
-
-    def calculate_liquid_limit(self, percent_moisture, blows):
-        if blows is None or blows <= 0 or percent_moisture is None:
-            print("Invalid input for liquid limit calculation.")
-            return None
-        correction_factor = (blows / 25) ** 0.121
-        liquid_limit = round(percent_moisture * correction_factor, 2)
-        print(f"Liquid Limit: {liquid_limit}")
-        return liquid_limit
-
-    def calculate_plastic_limit(self, percent_moisture):
-        if percent_moisture is None:
-            print("Invalid input for plastic limit calculation.")
-            return None
-        print(f"Plastic Limit: {percent_moisture}")
-        return percent_moisture
-
-    def calculate_plasticity_index(self, liquid_limit, plastic_limit):
-        print(f"Calculating Plasticity Index: LiquidLimit={liquid_limit}, PlasticLimit={plastic_limit}")
-        if liquid_limit is None or plastic_limit is None:
-            print("Invalid input for plasticity index calculation.")
-            return None
-        plasticity_index = round(liquid_limit - plastic_limit, 2)
-        print(f"Plasticity Index: {plasticity_index}")
-        return plasticity_index      
-
-    def store_atterberg_results(self, data):
-        """ Updates the Atterberg Limits results in the SQLite database. """
-        cursor = self.conn.cursor()
-        query = """
-        UPDATE Atterberg
-        SET LiquidLimit = ?, PlasticLimit = ?, PlasticityIndex = ?
-        WHERE SampleID = ?
-        """
-        values = (
-            data.get('LiquidLimit'),
-            data.get('PlasticLimit'),
-            data.get('PlasticityIndex'),
-            data.get('SampleID'),
-        )
-        print(f"Executing SQL: {query} with values {values}")  # Debug log
-        cursor.execute(query, values)
-        self.conn.commit()
-        print("Database updated successfully.")
-
-    def process_atterberg_data(self, data):
-        is_valid, error_message = self.validate_atterberg_data(data)
-        if not is_valid:
-            print(f"Validation failed: {error_message}")
-            return {"success": False, "message": error_message}
-        print("Validation passed.")
-        print(f"LiquidLimitNotObtained: {data.get('LiquidLimitNotObtained')}")
-        print(f"PlasticLimitNotObtained: {data.get('PlasticLimitNotObtained')}")
-    
-        liquid_limit = None
-        plastic_limit = None
-        plasticity_index = None
-    
-        # Calculate Liquid Limit
-        if data.get('LiquidLimitNotObtained') == 'FALSE':  # Explicitly check string value
-            percent_moisture_liquid = self.calculate_percent_moisture(
-                data['LiquidLimitTareWeight'],
-                data['LiquidLimitWeight'],
-                data['LiquidLimitDryWeight']
-            )
-            print(f"Percent Moisture for Liquid Limit: {percent_moisture_liquid}")
-            liquid_limit = self.calculate_liquid_limit(percent_moisture_liquid, data['LiquidLimitNumberOfBlows'])
-            print(f"Calculated Liquid Limit: {liquid_limit}")
-    
-        # Calculate Plastic Limit
-        if data.get('PlasticLimitNotObtained') == 'FALSE':  # Explicitly check string value
-            print("Calculating Plastic Limit...")
-            percent_moisture_plastic = self.calculate_percent_moisture(
-                data['PlasticLimitTareWeight'],
-                data['PlasticLimitWetWeight'],
-                data['PlasticLimitDryWeight']
-            )
-            print(f"Percent Moisture for Plastic Limit: {percent_moisture_plastic}")
-            plastic_limit = self.calculate_plastic_limit(percent_moisture_plastic)
-            print(f"Calculated Plastic Limit: {plastic_limit}")
-    
-        # Calculate Plasticity Index
-        if liquid_limit is not None and plastic_limit is not None:
-            plasticity_index = self.calculate_plasticity_index(liquid_limit, plastic_limit)
-            print(f"Calculated Plasticity Index: {plasticity_index}")
+    def process_moisture_density_test(self, test_id):
+        """ Process moisture density data for a given test ID. """
+        # Fetch test data and test points from the database
+        test_data = self.fetch_test_data(test_id)
+        if not test_data:
+            return {"success": False, "message": "Test data not found"}
     
         try:
-            self.store_atterberg_results({
-                'SampleID': data.get('SampleID'),
-                'LiquidLimit': liquid_limit,
-                'PlasticLimit': plastic_limit,
-                'PlasticityIndex': plasticity_index
-            })
-            return {"success": True, "message": "Data processed successfully"}
+            mold_weight = float(test_data['MoldWeight'])
+            mold_volume = float(test_data['MoldNumber'])
+        except (ValueError, KeyError) as e:
+            return {"success": False, "message": f"Invalid or missing mold data: {e}"}
+    
+        test_points = self.fetch_test_points(test_id)
+        if not test_points:
+            return {"success": False, "message": "No test points found for the given test ID"}
+    
+        moisture_contents = []
+        dry_densities = []
+    
+        # Process each test point
+        for point in test_points:
+            try:
+                compacted_sample_weight = float(point['MoldWeight'])
+                tare_weight = float(point['DishWeight'])
+                tare_and_wet_soil_weight = float(point['DishAndWetSoilWeight'])
+                tare_and_dry_soil_weight = float(point['DishAndDrySoilWeight'])
+    
+                if None in (compacted_sample_weight, tare_weight, tare_and_wet_soil_weight, tare_and_dry_soil_weight):
+                    raise ValueError("Missing data for calculations")
+    
+                # Calculate percent moisture
+                percent_moisture = self.calculate_percent_moisture(
+                    tare_weight, tare_and_wet_soil_weight, tare_and_dry_soil_weight)
+                moisture_contents.append(percent_moisture)
+    
+                # Calculate wet density
+                wet_density = self.calculate_wet_density(compacted_sample_weight, mold_weight, mold_volume)
+    
+                # Calculate dry density
+                dry_density = self.calculate_dry_density(wet_density, percent_moisture)
+                dry_densities.append(dry_density)
+    
+                # Store results for this point
+                self.results.append({
+                    "Compacted Sample Weight": compacted_sample_weight,
+                    "Tare Weight": tare_weight,
+                    "Tare and Wet Soil Weight": tare_and_wet_soil_weight,
+                    "Tare and Dry Soil Weight": tare_and_dry_soil_weight,
+                    "Percent Moisture": percent_moisture,
+                    "Wet Density": wet_density,
+                    "Dry Density": dry_density
+                })
+            except (ValueError, ZeroDivisionError) as e:
+                print(f"Skipping point due to error: {e}")
+                continue
+    
+        if not moisture_contents or not dry_densities:
+            return {"success": False, "message": "Insufficient valid data points for calculations"}
+    
+        try:
+            a, b, c = self.fit_quadratic_curve(moisture_contents, dry_densities)
+            optimum_moisture, max_dry_density = self.find_optimum_moisture_and_max_density(a, b, c)
         except Exception as e:
-            print(f"Error storing results: {e}")
-            return {"success": False, "message": str(e)}
-db_path = 'Soil_framework.sqlite'
+            return {"success": False, "message": f"Error in fitting curve or calculations: {e}"}
+    
+        self.store_results_in_database(test_id, max_dry_density, optimum_moisture)
+    
+        return {
+            "success": True,
+            "Max Dry Density": max_dry_density,
+            "Optimum Moisture Content": optimum_moisture,
+            "Results": self.results
+        }
 
-with AtterbergLimitsModule(db_path) as atterberg_module:
-    sample_ids = atterberg_module.fetch_all_sample_ids()
-    for sample_id in sample_ids:
-        print(f"Processing SampleID {sample_id}...")
-        data = atterberg_module.fetch_data(sample_id)
-        if data:
-            result = atterberg_module.process_atterberg_data(data)
-            print(f"Result for SampleID {sample_id}: {result}")
+
+
+    def store_results_in_database(self, test_id, max_dry_density, optimum_moisture_content):
+        """ Stores the processed results in the database. """
+        cursor = self.db_connection.cursor()
+        query = """
+        UPDATE MoistureDensityResult
+        SET MaxDryDensity = ?, OptimumMoisture = ?
+        WHERE MoistureDensityTestID = ?
+        """
+        cursor.execute(query, (max_dry_density, optimum_moisture_content, test_id))
+        self.db_connection.commit()
+
+if __name__ == "__main__":
+    db_connection = sqlite3.connect('Soil_framework.sqlite')
+    db_connection.row_factory = sqlite3.Row
+    moisture_density_module = MoistureDensityModule(db_connection)
+
+    # Fetch all test IDs from the database
+    cursor = db_connection.cursor()
+    cursor.execute("SELECT DISTINCT MoistureDensityTestID FROM MoistureDensityResult")
+    test_ids = [row['MoistureDensityTestID'] for row in cursor.fetchall()]
+
+    # Process each test ID
+    for test_id in test_ids:
+        print(f"Processing Test ID: {test_id}")
+        results = moisture_density_module.process_moisture_density_test(test_id)
+        
+        if results["success"]:
+            print(f"Test ID {test_id} - Max Dry Density: {results['Max Dry Density']}")
+            print(f"Test ID {test_id} - Optimum Moisture Content: {results['Optimum Moisture Content']}")
         else:
-            print(f"No data found for SampleID {sample_id}")
+            print(f"Test ID {test_id} - Error: {results['message']}")
+
+        for point_result in results.get("Results", []):
+            print(point_result)
+
+    # Close the database connection
+    db_connection.close()
