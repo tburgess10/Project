@@ -136,30 +136,30 @@ class MoistureDensityModule:
         """
         cursor.execute(query, (max_dry_density, optimum_moisture_content, test_id))
         self.db_connection.commit()
-
-if __name__ == "__main__":
-    db_connection = sqlite3.connect('Soil_framework.sqlite')
-    db_connection.row_factory = sqlite3.Row
-    moisture_density_module = MoistureDensityModule(db_connection)
-
-    # Fetch all test IDs from the database
-    cursor = db_connection.cursor()
-    cursor.execute("SELECT DISTINCT MoistureDensityTestID FROM MoistureDensityResult")
-    test_ids = [row['MoistureDensityTestID'] for row in cursor.fetchall()]
-
-    # Process each test ID
-    for test_id in test_ids:
-        print(f"Processing Test ID: {test_id}")
-        results = moisture_density_module.process_moisture_density_test(test_id)
+    def call_moisture_density(self, process_moisture_density_test):
+        if __name__ == "__main__":
+            db_connection = sqlite3.connect('Soil_framework.sqlite')
+            db_connection.row_factory = sqlite3.Row
+            moisture_density_module = MoistureDensityModule(db_connection)
         
-        if results["success"]:
-            print(f"Test ID {test_id} - Max Dry Density: {results['Max Dry Density']}")
-            print(f"Test ID {test_id} - Optimum Moisture Content: {results['Optimum Moisture Content']}")
-        else:
-            print(f"Test ID {test_id} - Error: {results['message']}")
-
-        for point_result in results.get("Results", []):
-            print(point_result)
-
-    # Close the database connection
-    db_connection.close()
+            # Fetch all test IDs from the database
+            cursor = db_connection.cursor()
+            cursor.execute("SELECT DISTINCT MoistureDensityTestID FROM MoistureDensityResult")
+            test_ids = [row['MoistureDensityTestID'] for row in cursor.fetchall()]
+        
+            # Process each test ID
+            for test_id in test_ids:
+                print(f"Processing Test ID: {test_id}")
+                results = moisture_density_module.process_moisture_density_test(test_id)
+                
+                if results["success"]:
+                    print(f"Test ID {test_id} - Max Dry Density: {results['Max Dry Density']}")
+                    print(f"Test ID {test_id} - Optimum Moisture Content: {results['Optimum Moisture Content']}")
+                else:
+                    print(f"Test ID {test_id} - Error: {results['message']}")
+        
+                for point_result in results.get("Results", []):
+                    print(point_result)
+        
+            # Close the database connection
+            db_connection.close()
