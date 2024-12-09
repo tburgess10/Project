@@ -114,17 +114,19 @@ class GradationModule:
         except sqlite3.Error as e:
             print(f"Error storing gradation results: {e}")
             self.db_connection.rollback()
-if __name__ == "__main__":
-    db_connection = sqlite3.connect('Soil_framework.sqlite')
-    db_connection.row_factory = sqlite3.Row
-    gradation_module = GradationModule(db_connection)
-
-    # Fetch all test IDs from the database
-    cursor = db_connection.cursor()
-    cursor.execute("SELECT DISTINCT SampleID FROM GradationTest;")
-    test_ids = [row['SampleID'] for row in cursor.fetchall()]
-
-    # Process each test ID
-    for test_id in test_ids:
-        print(f"Processing Test ID: {test_id}")
-        results = gradation_module.retrieve_and_process_gradation(test_id)
+    def gradation_callback(self, fetchall, retrieve_and_process_gradation):
+        
+        if __name__ == "__main__":
+            db_connection = sqlite3.connect('Soil_framework.sqlite')
+            db_connection.row_factory = sqlite3.Row
+            gradation_module = GradationModule(db_connection)
+        
+            # Fetch all test IDs from the database
+            cursor = db_connection.cursor()
+            cursor.execute("SELECT DISTINCT SampleID FROM GradationTest;")
+            test_ids = [row['SampleID'] for row in cursor.fetchall()]
+        
+            # Process each test ID
+            for test_id in test_ids:
+                print(f"Processing Test ID: {test_id}")
+                results = gradation_module.retrieve_and_process_gradation(test_id)
