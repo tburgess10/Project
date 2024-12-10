@@ -335,13 +335,16 @@ liquid_limit_label = CTkLabel(liquidLimitFrame, text="Liquid Limit: N/A")
 liquid_limit_label.grid(column=0, row=0)
 
 # Top buttons
-New = CTkButton(mainframe, text = "New", width=65, height = 25, border_color="#1751BD", border_width=2, command = lambda: open_new_window(plasticity_label, plastic_limit_label, liquid_limit_label))
+buttonFrame = ttk.Frame(mainframe)
+buttonFrame.grid(column=0, row=0)
+
+New = CTkButton(buttonFrame, text = "New", width=65, height = 25, border_color="#1751BD", border_width=2, command = lambda: open_new_window(plasticity_label, plastic_limit_label, liquid_limit_label))
 New.grid(column = 0, row = 0, sticky = (N, W))
-Open = CTkButton(mainframe, text = "Open", width=65, height = 25, border_color="#1751BD", border_width=2)
+Open = CTkButton(buttonFrame, text = "Open", width=65, height = 25, border_color="#1751BD", border_width=2)
 Open.grid(column = 1, row = 0, sticky = (N, W))
-Save = CTkButton(mainframe, text = "Save", width=65, height = 25, border_color="#1751BD", border_width=2)
+Save = CTkButton(buttonFrame, text = "Save", width=65, height = 25, border_color="#1751BD", border_width=2)
 Save.grid(column = 2, row = 0, sticky = (N, W))
-Info = CTkButton(mainframe, text = "Info", width=65, height = 25, border_color="#1751BD", border_width=2, command= open_info_menu)
+Info = CTkButton(buttonFrame, text = "Info", width=65, height = 25, border_color="#1751BD", border_width=2, command= open_info_menu)
 Info.grid(column = 3, row = 0, sticky = (N, W))
 
 root.mainloop()
