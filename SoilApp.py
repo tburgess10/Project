@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from customtkinter import *
 from SoilAppComponentFiles import NewWindowComponents
-from SoilAppComponentFiles import Atterberg_Module
+from SoilAppComponentFiles import Atterberg_Module1
 
 def display_most_recent_atterberg_data(plasticity_label, plastic_limit_label, liquid_limit_label):
     db_path = r"C:\Users\granb\Downloads\Soil_framework.sqlite"
@@ -173,7 +173,7 @@ def insert_data(tab1_widgets, tab2_widgets, tab3_widgets, plasticity_label, plas
         print("An error occurred:", e)'''
     
     db_path = r"C:\Users\granb\Downloads\Soil_framework.sqlite"
-    with Atterberg_Module.AtterbergLimitsModule(db_path) as atterberg_module:
+    with Atterberg_Module1.AtterbergLimitsModule(db_path) as atterberg_module:
         sample_ids = atterberg_module.fetch_all_sample_ids()
         for sample_id in sample_ids:
             print(f"Processing SampleID {sample_id}...")
