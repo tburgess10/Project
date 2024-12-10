@@ -3,8 +3,34 @@ from tkinter import *
 from tkinter import ttk
 from customtkinter import *
 from SoilAppComponentFiles import NewWindowComponents
+from SoilAppComponentFiles import Atterberg_Module
 
-def insert_data(tab1_widgets, tab2_widgets, tab3_widgets):
+def display_most_recent_atterberg_data(plasticity_label, plastic_limit_label, liquid_limit_label):
+    db_path = r"C:\Users\granb\Downloads\Soil_framework.sqlite"
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    SELECT PlasticityIndex, PlasticLimit, LiquidLimit
+    FROM Atterberg
+    ORDER BY SampleID DESC LIMIT 1
+    """)
+    most_recent_row = cursor.fetchone()
+
+    conn.close()
+
+    if most_recent_row:
+        plasticity_index, plastic_limit, liquid_limit = most_recent_row
+
+        plasticity_label.configure(text=f"Plasticity Index: {plasticity_index}")
+        plastic_limit_label.configure(text=f"Plastic Limit: {plastic_limit}")
+        liquid_limit_label.configure(text=f"Liquid Limit: {liquid_limit}")
+    else:
+        plasticity_label.configure(text="Plasticity Index: N/A")
+        plastic_limit_label.configure(text="Plastic Limit: N/A")
+        liquid_limit_label.configure(text="Liquid Limit: N/A")
+
+def insert_data(tab1_widgets, tab2_widgets, tab3_widgets, plasticity_label, plastic_limit_label, liquid_limit_label):
     
     # replace the line below with the path to your soil databse, 
     # still trying to figure out a way to make it easily 
@@ -96,7 +122,7 @@ def insert_data(tab1_widgets, tab2_widgets, tab3_widgets):
         print("An error occurred:", e)
     
     # Get Proctor tab entries
-    dateCom = tab3_widgets["dateCompleted"]["dateComE"].get()
+    '''dateCom = tab3_widgets["dateCompleted"]["dateComE"].get()
     moldWeight = tab3_widgets["moldFrame"]["moldWeightE"].get()
     moldNum = tab3_widgets["moldFrame"]["moldNumCB"].get()
     WoCSL1 = tab3_widgets["pointFrame"]["WoCSLE1"].get()
@@ -144,7 +170,21 @@ def insert_data(tab1_widgets, tab2_widgets, tab3_widgets):
         conn.commit()
         print("Data inserted into Proctor successfully!")
     except sqlite3.Error as e:
-        print("An error occurred:", e)
+        print("An error occurred:", e)'''
+    
+    db_path = r"C:\Users\granb\Downloads\Soil_framework.sqlite"
+    with Atterberg_Module.AtterbergLimitsModule(db_path) as atterberg_module:
+        sample_ids = atterberg_module.fetch_all_sample_ids()
+        for sample_id in sample_ids:
+            print(f"Processing SampleID {sample_id}...")
+            data = atterberg_module.fetch_data(sample_id)
+            if data:
+                result = atterberg_module.process_atterberg_data(data)
+                print(f"Result for SampleID {sample_id}: {result}")
+            else:
+                print(f"No data found for SampleID {sample_id}")
+    
+    display_most_recent_atterberg_data(plasticity_label, plastic_limit_label, liquid_limit_label)
 
     conn.close()
 
@@ -176,7 +216,7 @@ def open_info_menu():
 
 
 
-def open_new_window():
+def open_new_window(plasticity_label, plastic_limit_label, liquid_limit_label):
     new_window = Toplevel(root)
     new_window.title("New Sample")
     new_window.resizable(False, False)
@@ -221,7 +261,7 @@ def open_new_window():
     # submit and cancel button
     SubmitB = CTkButton(BottomButtonsFrame, 
         text = "Submit", 
-        command=lambda: insert_data(tab1_widgets, tab2_widgets, tab3_widgets),
+        command=lambda: insert_data(tab1_widgets, tab2_widgets, tab3_widgets, plasticity_label, plastic_limit_label, liquid_limit_label),
         border_color="#1751BD", 
         border_width=2)
     CancelB = CTkButton(BottomButtonsFrame, 
@@ -251,18 +291,57 @@ position_y = (screen_height - window_height) // 2
 
 root.geometry(f"{window_width}x{window_height}+{position_x}+{position_y}")
 
-mainframe = CTkFrame(root, corner_radius=20)
+mainframe = CTkFrame(root, corner_radius=20, fg_color="#ECECEC")
 mainframe.grid(column = 0, row = 0, sticky = (N, W))
 
+mainframe.rowconfigure(0, weight=0)
+mainframe.rowconfigure(1, weight=1)
+
+# Atterberg Results Frame
+atterbergResultsFrame = CTkFrame(mainframe, fg_color="#ECECEC")
+atterbergResultsFrame.grid(column=0, row=1, columnspan=4, sticky=(N, W, E), pady=10)
+
+# Plasticity Frame
+plasticityFrame = CTkFrame(master=atterbergResultsFrame, fg_color="#ECECEC", border_color="#1751BD", border_width=2)
+plasticityFrame.grid(column=0, row=0, padx=10)
+
+border_canvas = CTkCanvas(plasticityFrame, height=200, width=200, bd=0, highlightthickness=0)
+border_canvas.create_rectangle(0, 0, 200, 200, outline="#1751BD", width=2)
+border_canvas.grid(row=0, column=0)
+
+plasticity_label = CTkLabel(plasticityFrame, text="Plasticity Index: N/A") 
+plasticity_label.grid(column=0, row=0)
+
+# Plastic Limit Frame
+plasticLimitFrame = CTkFrame(atterbergResultsFrame, border_color="#1751BD", border_width=2, fg_color="#ECECEC")
+plasticLimitFrame.grid(column=1, row=0, padx=10)
+
+border_canvas2 = CTkCanvas(plasticLimitFrame, height=200, width=200, bd=0, highlightthickness=0)
+border_canvas2.create_rectangle(0, 0, 200, 200, outline="#1751BD", width=2)
+border_canvas2.grid(row=0, column=0)
+
+plastic_limit_label = CTkLabel(plasticLimitFrame, text="Plastic Limit: N/A") 
+plastic_limit_label.grid(column=0, row=0)
+
+# Liquid Limit Frame
+liquidLimitFrame = CTkFrame(atterbergResultsFrame, border_color="#1751BD", border_width=2, fg_color="#ECECEC")
+liquidLimitFrame.grid(column=2, row=0, padx=10)
+
+border_canvas3 = CTkCanvas(liquidLimitFrame, height=200, width=200, bd=0, highlightthickness=0)
+border_canvas3.create_rectangle(0, 0, 200, 200, outline="#1751BD", width=2)
+border_canvas3.grid(row=0, column=0)
+
+liquid_limit_label = CTkLabel(liquidLimitFrame, text="Liquid Limit: N/A") 
+liquid_limit_label.grid(column=0, row=0)
 
 # Top buttons
-New = CTkButton(mainframe, text = "New", width=65, height = 25, border_color="#1751BD", border_width=2, command = open_new_window)
+New = CTkButton(mainframe, text = "New", width=65, height = 25, border_color="#1751BD", border_width=2, command = lambda: open_new_window(plasticity_label, plastic_limit_label, liquid_limit_label))
 New.grid(column = 0, row = 0, sticky = (N, W))
 Open = CTkButton(mainframe, text = "Open", width=65, height = 25, border_color="#1751BD", border_width=2)
 Open.grid(column = 1, row = 0, sticky = (N, W))
 Save = CTkButton(mainframe, text = "Save", width=65, height = 25, border_color="#1751BD", border_width=2)
 Save.grid(column = 2, row = 0, sticky = (N, W))
-Info = CTkButton(mainframe, text = "Info", width=65, height = 25, border_color="#1751BD", border_width=2, command=open_info_menu)
+Info = CTkButton(mainframe, text = "Info", width=65, height = 25, border_color="#1751BD", border_width=2, command= open_info_menu)
 Info.grid(column = 3, row = 0, sticky = (N, W))
 
 root.mainloop()
